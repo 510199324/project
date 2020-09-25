@@ -1,0 +1,13 @@
+
+.title{
+	font-weight:700;
+	font-size:48rpx;
+}
+.protocol{
+	margin:20rpx;
+	padding:20rpx;
+}
+.protocol>view{
+	margin:20rpx;
+}
+

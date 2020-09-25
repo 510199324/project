@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "购物车",
+  "usingComponents": {
+    "good-list": "/components/my-components/goodList/goodList",
+    "shop": "/components/my-components/shop/shop"
+  }
+}

@@ -1,0 +1,52 @@
+
+.text{
+	font-size:40rpx;
+	font-weight:700;
+	color:#6B6B6B;
+	line-height:100rpx;
+	padding-left:20rpx;
+}
+.Settlement{
+	position:fixed;
+	bottom:0rpx;
+	left:0rpx;
+	width:100%;
+	background:#fff;
+	border-top:1px solid #E1E1E1;
+	z-index:20;
+	padding:25rpx 10rpx;
+}
+.settlementBtn{
+	width:100rpx;
+	height:60rpx;
+	border:none;
+	background:#4CD964;
+	color:#fff;
+	line-height:60rpx;
+	border-radius:30rpx;
+}
+.total,
+.totalMoney{
+	-webkit-align-self:center;
+	        align-self:center;
+}
+.total{
+	color:#43474A;
+	font-size:36rpx;
+}
+.totalMoney{
+	font-size:28rpx;
+	color:#f40;
+	margin:0rpx 15rpx;
+}
+.check{
+	width:40rpx;
+	height:40rpx;
+	border-radius:50%;
+}
+.checkBox>text{
+	color:#a2a2a2;
+	font-size:28rpx;
+	margin-left:15rpx;
+}
+

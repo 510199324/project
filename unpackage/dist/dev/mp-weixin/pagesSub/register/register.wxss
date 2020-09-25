@@ -1,0 +1,54 @@
+
+.logoImg{
+	height:100rpx;
+	margin:30rpx auto;
+	display:block;
+}
+.maliboxInput{
+	width:75%;
+	height:100rpx;
+	color:#f8f8f8;
+	border:none;
+	border-bottom:1px solid #EBEEF7;
+}
+.error{
+	color:#f00;
+	font-size:30rpx;
+	width:75%;
+	display:block;
+}
+.send{
+	width:100%;
+}
+.sendEali{
+	width:75%;
+	height:80rpx;
+	text-align:center;
+	border-radius:10rpx;
+	color:#999;
+	background:#A6DBFB;
+	margin:20rpx auto;
+}
+.login{
+	font-size:20rpx;
+}
+.sendLogin{
+	width:75%;
+	text-align:left;
+}
+.otherLogin{
+	color:#999;
+	font-size:28rpx;
+	margin:20rpx 0rpx;
+}
+.weChatLogo{
+	width:100rpx;
+	height:100rpx;
+	display:block;
+	margin:0 auto;
+}
+.UserAgreement{
+	margin:20rpx;
+	font-size:28rpx;
+}
+

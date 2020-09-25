@@ -1,0 +1,52 @@
+
+.goods{
+	position:fixed;
+	bottom:0rpx;
+	left:0rpx;
+	width:100%;
+}
+.detailText{
+	background:#f8f8f8;
+	font-size:22rpx;
+	margin:20rpx;
+	padding:20rpx;
+	border-radius:15rpx;
+}
+.price{
+	font-size:30rpx;
+	color:#f40;
+}
+.gold{
+	color:#f40;
+}
+.money{
+	padding:20rpx 0rpx;
+}
+.deteilImg{
+	width:100%;
+}
+.swiperCom{
+	height:700rpx;
+}
+.swiper{
+	position:relative;
+}
+.number{
+	position:absolute;
+	bottom:30rpx;
+	right:30rpx;
+	font-size:30rpx;
+	font-weight:600;
+	border:1px solid #000;
+	border-radius:30rpx;
+	padding:10rpx;
+}
+.typeTwo{
+	color:#ccc;
+}
+.like{
+	font-size:40rpx;
+	font-weight:700;
+	padding:20rpx;
+}
+

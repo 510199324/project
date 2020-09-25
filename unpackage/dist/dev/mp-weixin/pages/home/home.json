@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "乐居生活",
+  "usingComponents": {
+    "uni-search-bar": "/components/uni-search-bar/uni-search-bar",
+    "my-swiper": "/components/my-components/swiper/my-swiper",
+    "good-list": "/components/my-components/goodList/goodList",
+    "classify-list": "/components/my-components/detailList/detailList"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "个人中心",
+  "usingComponents": {
+    "mix-list-cell": "/components/mix-list-cell/mix-list-cell",
+    "mix-modal": "/components/mix-modal/mix-modal"
+  }
+}

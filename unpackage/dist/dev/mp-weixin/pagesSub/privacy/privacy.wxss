@@ -1,0 +1,13 @@
+
+.privacy{
+	padding:20rpx;
+	margin:20rpx;
+}
+.title{
+	font-size:48rpx;
+	font-weight:700;
+}
+.privacy>view{
+	margin:20rpx;
+}
+

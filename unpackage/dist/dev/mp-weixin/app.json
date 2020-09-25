@@ -1,0 +1,66 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/shopCar/shopCar",
+    "pages/find/find",
+    "pages/personil/personil"
+  ],
+  "subPackages": [
+    {
+      "root": "pagesSub",
+      "pages": [
+        "classify/classify",
+        "detail/detail",
+        "login/login",
+        "register/register",
+        "Order/Order",
+        "address/address",
+        "coupon/coupon",
+        "Favorites/Favorites",
+        "privacy/privacy",
+        "protocol/protocol",
+        "IntegralDetails/IntegralDetails",
+        "ExchangeRecord/ExchangeRecord",
+        "orderDetails/orderDetails",
+        "CashierDesk/CashierDesk"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#ccc",
+    "selectedColor": "#28D8B4",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "static/imags/chome.png",
+        "selectedIconPath": "static/imags/dhome.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/find/find",
+        "iconPath": "static/imags/CFind.png",
+        "selectedIconPath": "static/imags/DFind.png",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/shopCar/shopCar",
+        "iconPath": "static/imags/cshop.png",
+        "selectedIconPath": "static/imags/dshop.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/personil/personil",
+        "iconPath": "static/imags/cpersonil.png",
+        "selectedIconPath": "static/imags/dpersonil.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap75.json"
+}

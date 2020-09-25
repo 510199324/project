@@ -1,0 +1,1 @@
+{"version":3,"sources":["uni-app:///main.js"],"names":["createPage","Page"],"mappings":";;;;wEAAA,qBACA,sBACA,2D,mDACAA,EAAWC,a","file":"pagesSub/ConfirmOrder/ConfirmOrder.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pagesSub/ConfirmOrder/ConfirmOrder.vue'\ncreatePage(Page)"],"sourceRoot":""}

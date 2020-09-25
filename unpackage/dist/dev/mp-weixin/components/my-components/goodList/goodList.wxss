@@ -1,0 +1,50 @@
+
+.goodList{
+	width:100%;
+	font-size:20rpx;
+}
+.images{
+	width:150rpx;
+	height:150rpx;
+	display:block;
+	margin:0 auto;
+	margin-top:30rpx;
+}
+.good-list{
+	width:40%;
+	height:300rpx;
+	background:#fff;
+	margin:0rpx 15rpx 15rpx 15rpx;
+	border-radius:15rpx;
+}
+.wrap{
+	-webkit-flex-wrap:wrap;
+	        flex-wrap:wrap;
+	-webkit-box-pack:center;
+	-webkit-justify-content:center;
+	        justify-content:center;
+}
+.title{
+	display:block;
+	margin-top:15rpx;
+	margin-left:15rpx;
+}
+.price{
+	-webkit-align-self:center;
+	        align-self:center;
+	font-weight:700;
+}
+.shop>.shopImg{
+	width:50rpx;
+	height:50rpx;
+	display:block;
+	margin-right:5rpx;
+}
+.shop{
+	border-radius:50%;
+	background:#28D8B4;
+}
+.money{
+	margin:0rpx 15rpx;
+}
+

@@ -1,0 +1,1 @@
+{"version":3,"sources":["uni-app:///main.js"],"names":["createPage","Page"],"mappings":";;;;wEAAA,qBACA,sBACA,uC,mDACAA,EAAWC,a","file":"pages/fand/fand.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pages/fand/fand.vue'\ncreatePage(Page)"],"sourceRoot":""}

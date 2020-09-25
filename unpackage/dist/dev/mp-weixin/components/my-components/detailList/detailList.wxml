@@ -1,0 +1,1 @@
+<view class="classifyList flex"><block wx:for="{{classifyTitle}}" wx:for-item="item" wx:for-index="index" wx:key="index"><navigator class="classificationList" url="{{src+item}}" hover-class="none"><image class="images margin" src="{{classifyImgs[index]}}"></image><text class="classifyTitle">{{item}}</text></navigator></block></view>

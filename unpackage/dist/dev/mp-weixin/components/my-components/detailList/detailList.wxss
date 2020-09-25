@@ -1,0 +1,28 @@
+
+.classifyList{
+	-webkit-flex-wrap: wrap;
+	        flex-wrap: wrap;
+	margin:20rpx auto;
+	width:749rpx;
+	-webkit-box-pack:center;
+	-webkit-justify-content:center;
+	        justify-content:center;
+}
+.classificationList{
+	width:180rpx;
+}
+.images{
+	width:80rpx;
+	height:80rpx;
+	display:block;
+	border-radius:50%;
+}
+.classifyTitle{
+	font-size:24rpx;
+	padding:15rpx 0rpx;
+	width:100%;
+	color:#999999;
+	display:block;
+	text-align:center;
+}
+

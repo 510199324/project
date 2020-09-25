@@ -1,0 +1,115 @@
+{
+	"pages": [
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "乐居生活"
+			}
+		},
+		{
+			"path": "pages/shopCar/shopCar",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},
+		{
+			"path": "pages/find/find",
+			"style": {
+				"navigationBarTitleText": "发现"
+			}
+		},
+		{
+			"path": "pages/personil/personil",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarBackgroundColor": "#fff",
+		"navigationBarTextStyle": "black"
+	},
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
+	"tabBar": {
+		"color": "#ccc",
+		"selectedColor": "#28D8B4",
+		"backgroundColor": "#fff",
+		"list": [
+			{
+				"pagePath": "pages/home/home",
+				"iconPath": "static/imags/chome.png",
+				"selectedIconPath": "static/imags/dhome.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/find/find",
+				"iconPath": "static/imags/CFind.png",
+				"selectedIconPath": "static/imags/DFind.png",
+				"text": "发现"
+			},
+			{
+				"pagePath": "pages/shopCar/shopCar",
+				"iconPath": "static/imags/cshop.png",
+				"selectedIconPath": "static/imags/dshop.png",
+				"text": "购物车"
+			},
+			{
+				"pagePath": "pages/personil/personil",
+				"iconPath": "static/imags/cpersonil.png",
+				"selectedIconPath": "static/imags/dpersonil.png",
+				"text": "个人中心"
+			}
+		]
+	},
+	"subPackages": [
+		{
+			"root":"pagesSub",
+			"pages":[
+				{
+					"path": "classify/classify"
+				},
+				{
+					"path": "detail/detail"
+				},
+				{
+					"path": "login/login"
+				},
+				{
+					"path": "register/register"
+				},
+				{
+					"path": "Order/Order"
+				},
+				{
+					"path": "address/address"
+				},
+				{
+					"path": "coupon/coupon"
+				},
+				{
+					"path": "Favorites/Favorites"
+				},
+				{
+					"path": "privacy/privacy"
+				},
+				{
+					"path": "protocol/protocol"
+				},
+				{
+					"path": "IntegralDetails/IntegralDetails"
+				},
+				{
+					"path": "ExchangeRecord/ExchangeRecord"
+				},
+				{
+					"path": "orderDetails/orderDetails"
+				},
+				{
+					"path": "CashierDesk/CashierDesk"
+				}
+			]
+		}
+	]
+}

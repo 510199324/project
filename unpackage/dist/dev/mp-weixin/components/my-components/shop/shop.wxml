@@ -1,0 +1,1 @@
+<view class="shop-slot"><view class="image"><image class="margin" src="../../../static/imags/shopCartNot.png"></image></view><view class="slot"><view class="text-title"><slot name="text-title"></slot></view><view class="text-two"><slot name="text-two"></slot></view><view class="button"><slot name="button"></slot></view></view></view>
