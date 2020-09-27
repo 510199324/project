@@ -7,7 +7,7 @@
 					<text>头像</text>
 				</view>
 				<view class="more-content">
-					<image src="/static/img/user_pic.jpg" mode=""></image>
+					<image src="../../static/imags/cpersonil.png" mode=""></image>
 					<text class="iconfont icon-more more"></text>
 				</view>
 			</view>
@@ -48,6 +48,9 @@
 					</picker>
 				</view>
 			</view>
+			<view class="outLogin">
+				<button class="logoutLogin">退出登录</button>
+			</view>
 		</view>
 		<!-- 提示框 -->
 		<DialogBox ref="DialogBox"></DialogBox>
@@ -73,9 +76,17 @@
 				DialogBox: {},
 				// 昵称
 				nickname: '爱跳舞的汤姆猫',
+				userInfo: null
 			};
 		},
-		onLoad() {
+		onShow() {
+			let that = this;
+			uni.getStorage({
+				key: 'userInfo',
+				success(res) {
+					that.userInfo = res.data;
+				}
+			})
 		},
 		methods:{
 			/**

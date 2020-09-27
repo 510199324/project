@@ -23,7 +23,8 @@
 	background:#4CD964;
 	color:#fff;
 	line-height:60rpx;
-	border-radius:30rpx;
+	-webkit-border-radius:30rpx;
+	        border-radius:30rpx;
 }
 .total,
 .totalMoney{
@@ -42,7 +43,8 @@
 .check{
 	width:40rpx;
 	height:40rpx;
-	border-radius:50%;
+	-webkit-border-radius:50%;
+	        border-radius:50%;
 }
 .checkBox>text{
 	color:#a2a2a2;

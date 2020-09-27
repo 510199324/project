@@ -39,6 +39,24 @@
   background-color: #FFFFFF;
   padding-bottom: 120rpx;
 }
+.address-list .addresslistAir.data-v-5caf6334 {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.address-list .addresslistAir .AirImg.data-v-5caf6334 {
+  width: 120rpx;
+  height: 120rpx;
+  display: block;
+  margin-bottom: 20rpx;
+}
+.address-list .addresslistAir text.data-v-5caf6334 {
+  display: block;
+  text-align: center;
+  padding: 20rpx 0rpx;
+}
 .address-list .list.data-v-5caf6334 {
   padding: 0 4%;
   height: 160rpx;
@@ -85,17 +103,6 @@
   font-weight: bold;
   color: #222222;
 }
-.address-list .list .name-phone .phone .tag.data-v-5caf6334 {
-  padding: 4rpx 8rpx;
-  font-size: 24rpx;
-  color: #FFFFFF;
-  background-color: #fe3b0f;
-  border-radius: 4rpx;
-  margin-left: 20rpx;
-}
-.address-list .list .name-phone .phone .blue.data-v-5caf6334 {
-  background-color: #0099FF;
-}
 .address-list .list .address-edit.data-v-5caf6334 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -130,15 +137,20 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-          justify-content: flex-end;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
   width: 10%;
   height: 100%;
 }
 .address-list .list .address-edit .edit text.data-v-5caf6334 {
   font-size: 38rpx;
   color: #555555;
+}
+.address-list .list .address-edit .edit .modify.data-v-5caf6334 {
+  width: 40rpx;
+  height: 40rpx;
+  display: block;
 }
 /* 添加地址 */
 .add-address.data-v-5caf6334 {
@@ -169,10 +181,13 @@
           justify-content: center;
   width: 80%;
   height: 70rpx;
+  background: -webkit-gradient(linear, left top, right top, from(#fe3b0f), to(#fc603a));
   background: -webkit-linear-gradient(left, #fe3b0f, #fc603a);
   background: linear-gradient(to right, #fe3b0f, #fc603a);
-  border-radius: 70rpx;
-  box-shadow: 0 10rpx 10rpx #fe3b0f;
+  -webkit-border-radius: 70rpx;
+          border-radius: 70rpx;
+  -webkit-box-shadow: 0 10rpx 10rpx #fe3b0f;
+          box-shadow: 0 10rpx 10rpx #fe3b0f;
 }
 .add-address .btn text.data-v-5caf6334 {
   font-size: 28rpx;

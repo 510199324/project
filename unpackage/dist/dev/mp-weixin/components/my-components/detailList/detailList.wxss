@@ -15,7 +15,8 @@
 	width:80rpx;
 	height:80rpx;
 	display:block;
-	border-radius:50%;
+	-webkit-border-radius:50%;
+	        border-radius:50%;
 }
 .classifyTitle{
 	font-size:24rpx;

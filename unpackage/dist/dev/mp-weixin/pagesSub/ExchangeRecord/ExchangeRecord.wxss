@@ -37,6 +37,7 @@
   position: relative;
   width: 100%;
   height: 300rpx;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fe3b0f), to(#fc603a));
   background: -webkit-linear-gradient(#fe3b0f, #fc603a);
   background: linear-gradient(#fe3b0f, #fc603a);
 }

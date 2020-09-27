@@ -79,6 +79,7 @@
   bottom: 10rpx;
   width: 30%;
   height: 6rpx;
+  background: -webkit-gradient(linear, left top, right top, from(#fe3b0f), to(#f6f6f6));
   background: -webkit-linear-gradient(left, #fe3b0f, #f6f6f6);
   background: linear-gradient(to right, #fe3b0f, #f6f6f6);
   -webkit-transform: translate(-50%, 0);
@@ -94,8 +95,10 @@
   position: relative;
   width: 100%;
   min-height: 200rpx;
-  box-shadow: 0 0 14rpx rgba(0, 0, 0, 0.1);
-  border-radius: 6rpx;
+  -webkit-box-shadow: 0 0 14rpx rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 14rpx rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 6rpx;
+          border-radius: 6rpx;
   margin-bottom: 20rpx;
   overflow: hidden;
 }
@@ -199,7 +202,8 @@
   color: #ffffff;
   background-color: #fe3b0f;
   font-size: 24rpx;
-  border-radius: 40rpx;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
 }
 .coupon-list .list .list-data .coupon-info .info-title .title text.data-v-6ffb736c {
   font-size: 24rpx;
@@ -236,7 +240,8 @@
   background-color: #fe3b0f;
   color: #ffffff;
   font-size: 24rpx;
-  border-radius: 100rpx;
+  -webkit-border-radius: 100rpx;
+          border-radius: 100rpx;
 }
 .coupon-list .list .list-data .coupon-info .date-get .get .use.data-v-6ffb736c {
   background-color: transparent;
@@ -298,7 +303,8 @@
   padding: 0 4%;
   height: 60rpx;
   background-color: #FFFFFF;
-  box-shadow: 0 -10rpx 10rpx #F5F5F5;
+  -webkit-box-shadow: 0 -10rpx 10rpx #F5F5F5;
+          box-shadow: 0 -10rpx 10rpx #F5F5F5;
 }
 .coupon-list .list .describe text.data-v-6ffb736c {
   color: #CCCCCC;
@@ -312,7 +318,8 @@
   width: 100rpx;
   height: 100rpx;
   border: 2rpx solid #c0c0c0;
-  border-radius: 100%;
+  -webkit-border-radius: 100%;
+          border-radius: 100%;
 }
 .coupon-list .list .use-status text.data-v-6ffb736c {
   display: inline-block;

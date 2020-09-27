@@ -1,7 +1,8 @@
 
 .shop-slot{
 	margin:20rpx;
-	border-radius:20rpx;
+	-webkit-border-radius:20rpx;
+	        border-radius:20rpx;
 	overflow:hidden;
 }
 .image>image{

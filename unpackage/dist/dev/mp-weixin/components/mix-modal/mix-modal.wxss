@@ -42,7 +42,8 @@
   width: 540rpx;
   padding-top: 36rpx;
   background-color: #fff;
-  border-radius: 24rpx;
+  -webkit-border-radius: 24rpx;
+          border-radius: 24rpx;
   overflow: hidden;
 }
 .pop-content .title.data-v-54ddcb84 {

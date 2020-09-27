@@ -37,6 +37,7 @@
   position: relative;
   width: 100%;
   height: 400rpx;
+  background: -webkit-gradient(linear, left top, left bottom, from(#fe3b0f), to(#fc603a));
   background: -webkit-linear-gradient(#fe3b0f, #fc603a);
   background: linear-gradient(#fe3b0f, #fc603a);
 }
@@ -64,7 +65,8 @@
 .head-bg .head-user .user image.data-v-6b0e6ff8 {
   width: 70rpx;
   height: 70rpx;
-  border-radius: 100%;
+  -webkit-border-radius: 100%;
+          border-radius: 100%;
 }
 .head-bg .head-user .user text.data-v-6b0e6ff8 {
   font-size: 28rpx;
@@ -154,7 +156,8 @@
   width: 100%;
   margin: 20rpx auto;
   background-color: #FFFFFF;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
 }
 .coupon-exchange .coupon-list.data-v-6b0e6ff8 {
   display: -webkit-box;
@@ -185,7 +188,8 @@
   width: 100rpx;
   height: 100rpx;
   background-color: #EEEEEE;
-  border-radius: 100%;
+  -webkit-border-radius: 100%;
+          border-radius: 100%;
   overflow: hidden;
 }
 .coupon-exchange .coupon-list .list .thumb image.data-v-6b0e6ff8 {
@@ -211,7 +215,8 @@
   width: 100%;
   margin: 20rpx auto;
   background-color: #FFFFFF;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
 }
 .handpick-exchange .handpick-list.data-v-6b0e6ff8 {
   display: -webkit-box;
@@ -245,7 +250,8 @@
 .handpick-exchange .handpick-list .list .thumb image.data-v-6b0e6ff8 {
   width: 200rpx;
   height: 200rpx;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
 }
 .handpick-exchange .handpick-list .list .title.data-v-6b0e6ff8 {
   display: -webkit-box;
@@ -290,7 +296,8 @@
   width: 100%;
   margin: 20rpx auto;
   background-color: #FFFFFF;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
 }
 .vip-exchange .goods-list.data-v-6b0e6ff8 {
   padding: 0 4%;
@@ -319,7 +326,8 @@
 .vip-exchange .goods-list .list .thumb image.data-v-6b0e6ff8 {
   width: 200rpx;
   height: 200rpx;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
 }
 .vip-exchange .goods-list .list .item.data-v-6b0e6ff8 {
   width: 70%;
@@ -376,7 +384,9 @@
   background-color: #fe3b0f;
   color: #FFFFFF;
   font-size: 24rpx;
-  box-shadow: 0 2px 5px #fe3b0f;
-  border-radius: 200rpx;
+  -webkit-box-shadow: 0 2px 5px #fe3b0f;
+          box-shadow: 0 2px 5px #fe3b0f;
+  -webkit-border-radius: 200rpx;
+          border-radius: 200rpx;
 }
 

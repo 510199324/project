@@ -96,7 +96,8 @@
   background-color: #EEEEEE;
   font-size: 24rpx;
   color: #222222;
-  border-radius: 2rpx;
+  -webkit-border-radius: 2rpx;
+          border-radius: 2rpx;
 }
 .price-count-down .count-down .count .dot.data-v-f4995cf8 {
   margin: 0 10rpx;
@@ -190,7 +191,8 @@
   height: 70%;
   background-color: #fe3b0f;
   color: #FFFFFF;
-  border-radius: 100rpx;
+  -webkit-border-radius: 100rpx;
+          border-radius: 100rpx;
   font-size: 26rpx;
 }
 

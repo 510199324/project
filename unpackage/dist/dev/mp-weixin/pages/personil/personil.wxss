@@ -71,7 +71,8 @@ page{
           flex-shrink: 0;
   width: 130rpx;
   height: 130rpx;
-  border-radius: 100px;
+  -webkit-border-radius: 100px;
+          border-radius: 100px;
   margin-right: 24rpx;
   border: 4rpx solid #fff;
   background-color: #fff;
@@ -88,7 +89,8 @@ page{
   font-size: 20rpx;
   color: #fff;
   background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 100rpx;
+  -webkit-border-radius: 100rpx;
+          border-radius: 100rpx;
 }
 .top .arc-line.data-v-1a72f586 {
   position: absolute;
@@ -102,7 +104,8 @@ page{
   width: 700rpx;
   margin: 20rpx auto 0;
   background: #fff;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
 }
 .order-wrap .o-header.data-v-1a72f586 {
   padding: 28rpx 20rpx 6rpx 26rpx;
@@ -139,7 +142,8 @@ page{
           flex-direction: column;
   width: 130rpx;
   height: 130rpx;
-  border-radius: 8rpx;
+  -webkit-border-radius: 8rpx;
+          border-radius: 8rpx;
   font-size: 24rpx;
   color: #606266;
   position: relative;
@@ -165,13 +169,15 @@ page{
   color: #fff;
   border: 2rpx solid #fff;
   background-color: #ff536f;
-  border-radius: 100rpx;
+  -webkit-border-radius: 100rpx;
+          border-radius: 100rpx;
 }
 .option-wrap.data-v-1a72f586 {
   width: 700rpx;
   margin: 20rpx auto 0;
   margin-top: 20rpx;
   background: #fff;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
 }
 

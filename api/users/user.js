@@ -11,7 +11,8 @@ import {request} from '../../utlis/request.js';
  */
 export function getUserInfo(data) {
 	return request('/user/userinfo',data,'POST',{
-		'Content-type': 'application/x-www-form-urlencoded'
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': data
 	})
 }
 
@@ -36,6 +37,8 @@ export function shopCartList(data) {
  * @param {object} data {
  * 		userName: string
  * 		password: string
+ *  	email: string
+ * 		code: string
  * }
  * @return {Promise} 
  */
@@ -76,17 +79,81 @@ export function login(data) {
 	})
 }
 
-// 注销账户
+// 发送邮件验证码
 /**
  * @export
  * @param {object} data {
- * 		userName: string
- * 		password: string
+ * 		email: string
+ * 		type: register:用于注册   upemali用于修改邮箱
  * }
  * @return {Promise} 
  */
-export function deleteUser(data) {
-	return request('/user/unsubscribe',data,'POST',{
+export function sendEmail(data) {
+	return request('/email',data,'POST',{
+		'Content-type': 'application/x-www-form-urlencoded'
+	})
+}
+
+// 获取用户uuid
+/**
+ * @export
+ * @param {object} data {
+ * 		email: string
+ * 		type: forgetpass  
+ * 		code: string  验证码  
+ * }
+ * @return {Promise} 
+ */
+export function getUid(data) {
+	return request('/sms',data,'POST',{
+		'Content-type': 'application/x-www-form-urlencoded'
+	})
+}
+
+// 修改邮箱
+/**
+ * @export
+ * @param {object} data {
+ * 		type: string      upemail
+ * 		newemail: string  新邮箱
+ *  	token：token  string  （header）
+ * }
+ * @return {Promise} 
+ */
+export function modifyEmail(data) {
+	return request('/user/forgetemail',data,'POST',{
+		'Content-type': 'application/x-www-form-urlencoded'
+	})
+}
+
+// 修改密码
+/**
+ * @export
+ * @param {object} data {
+ * 		password: string  旧密码
+ * 		newPass : string  新密码
+ *  	token：token  string
+ * }
+ * @return {Promise} 
+ */
+export function modifyPass(data) {
+	return request('/user/forgetpass',data,'POST',{
+		'Content-type': 'application/x-www-form-urlencoded'
+	})
+}
+
+// 忘记密码
+/**
+ * @export
+ * @param {object} data {
+ * 		password: string  旧密码
+ * 		UUID：string  发邮件获得
+ *  	email：用户邮箱：string
+ * }
+ * @return {Promise} 
+ */
+export function forgetPassWord(data) {
+	return request('/user/forgetpass',data,'POST',{
 		'Content-type': 'application/x-www-form-urlencoded'
 	})
 }

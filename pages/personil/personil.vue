@@ -1,11 +1,14 @@
 <template>
 	<view class="app">
 		<view class="top">
-			<image class="u-bg" src="/static/bg/user.png"></image>
+			<image class="u-bg" src="../../static/bg/wallet.png"></image>
 			<view class="user-wrapper">
 				<image class="avatar" :src="userInfo.avatar || '/static/imags/default.png'"></image>
-				<view class="login-box" @tap="login" v-show="!hasLogin">
+				<view class="login-box" @tap="login" v-show="!userInfo.name">
 					<text>请登录</text>
+				</view>
+				<view class="login-box" @tap="setUser" v-show="userInfo.name">
+					<text>{{userInfo.name}}</text>
 				</view>
 			</view>
 			<image class="arc-line" src="/static/icon/arc.png" mode="aspectFill"></image>
@@ -63,6 +66,7 @@
 <script>
 	import mixListCell from '../../components/mix-list-cell/mix-list-cell.vue';
 	import mixModal from '../../components/mix-modal/mix-modal.vue';
+	import { getUserInfo } from '../../api/users/user.js';
 	export default {
 		components:{
 			mixListCell,
@@ -70,14 +74,42 @@
 		},
 		data(){
 			return {
-				historyList: []
+				historyList: [],
+				userInfo: null, // 用户信息
+				token: null // token
 			}
 		},
 		computed: {
 			
 		},
 		onShow(){
-			
+			let that = this;
+			uni.getStorage({
+				key: 'token',
+				success(res) {
+					that.token = res.data;
+					getUserInfo(res.data).then((res)=>{
+						let resData = res[1].data;
+						if (resData.code === 401) {
+							uni.showToast({
+								title: '登录失效请重新登录',
+								icon: 'none'
+							})
+							setTimeout(()=>{
+								uni.navigateTo({
+									url: '../../pagesSub/login/login'
+								})
+							},1500)
+						} else if (resData.code === 204) {
+							uni.setStorage({
+								key: 'userInfo',
+								data: res[1].data
+							})
+							that.userInfo = res[1].data.data;
+						}
+					})
+				}
+			})
 		},
 		methods: {
 			login() {
@@ -86,34 +118,65 @@
 				})
 			},
 			order(item) {
-				uni.navigateTo({
-					url:'../../pagesSub/Order/Order?status='+item
-				})
+				if (this.token) {
+					uni.navigateTo({
+						url:'../../pagesSub/Order/Order?status='+item
+					})
+				} else {
+					uni.navigateTo({
+						url: '../../pagesSub/login/login'
+					})
+				}
 			},
 			address() {
-				console.log('点击了')
-				uni.navigateTo({
-					url: '../../pagesSub/address/address'
-				})
+				if (this.token) {
+					uni.navigateTo({
+						url: '../../pagesSub/address/address'
+					})
+				} else {
+					uni.navigateTo({
+						url: '../../pagesSub/login/login'
+					})
+				}
 			},
 			coupon() {
-				uni.navigateTo({
-					url:'../../pagesSub/coupon/coupon'
-				})
+				if (this.token) {
+					uni.navigateTo({
+						url:'../../pagesSub/coupon/coupon'
+					})
+				} else {
+					uni.navigateTo({
+						url: '../../pagesSub/login/login'
+					})
+				}
 			},
 			favorites() {
-				uni.navigateTo({
-					url: '../../pagesSub/Favorites/Favorites'
-				})
+				if (this.token) {
+					uni.navigateTo({
+						url: '../../pagesSub/Favorites/Favorites'
+					})
+				} else {
+					uni.navigateTo({
+						url: '../../pagesSub/login/login'
+					})
+				}
 			},
 			integral() {
+				if (this.token) {
+					uni.navigateTo({
+						url:'../../pagesSub/IntegralDetails/IntegralDetails'
+					})
+				} else {
+					uni.navigateTo({
+						url: '../../pagesSub/login/login'
+					})
+				}
+			},
+			setUser() {
 				uni.navigateTo({
-					url:'../../pagesSub/IntegralDetails/IntegralDetails'
+					url: '../../pagesSub/userSetUp/userSetUp'
 				})
 			}
-		},
-		created() {
-			
 		}
 	}
 </script>

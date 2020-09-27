@@ -4,18 +4,20 @@
 			<image src="../../static/imags/logo2.jpg" class="logoImg margin"></image>
 		</view>
 		<view class="mailbox">
-			<input type="text" class="maliboxInput margin" placeholder="请输入邮箱/用户名">
-			<input type="password" class="maliboxInput margin" placeholder="请输入密码">
-			<text class="error margin">邮箱格式不正确</text>
+			<input type="text" class="maliboxInput margin" placeholder="请输入用户名" v-model="userName" @input="userNameHandel($event)">
+			<text class="error margin" v-if="userNameFlag">用户名不正确</text>
+			<input type="password" class="maliboxInput margin" placeholder="请输入密码" v-model="password" @input="passwordHandel($event)">
+			<text class="error margin" v-if="passFlag">密码不正确</text>
 		</view>
 		<view class="send">
-			<button class="sendEali">登录</button>
+			<button class="sendEali" @tap="login">登录</button>
 		</view>
-		<view class="login">
-			<navigator url="../register/register" class="sendLogin margin" hover-class="none">立即注册</navigator>
+		<view class="register flex-between margin">
+			<navigator url="../register/register" class="sendLogin" hover-class="none">立即注册</navigator>
+			<navigator url="../forgetPassword/forgetPassword" class="sendLogin" hover-class="none">忘记密码</navigator>
 		</view>
 		<view class="other">
-			<text class="otherLogin flex-center">其他方式登录/注册</text>
+			<text class="otherLogin flex-center">其他方式登录 / 注册</text>
 			<view class="WeChat">
 				<image src="../../static/icon/login-wx.png" class="weChatLogo"></image>
 			</view>
@@ -32,39 +34,116 @@
 </template>
 
 <script>
+	import { login } from '../../api/users/user.js'
 	export default {
+		data() {
+			return {
+				userNameFlag: false, // 用户名不正确的显示和隐藏
+				passFlag: false, // 密码不正确的显示和隐藏
+				emailFlag: false, // 邮箱不正确的显示和隐藏
+				userReg: /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/, // 用户名的正则
+				passReg: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/,  // 密码的正则
+				userName: '', // 用户名的双向绑定
+				password: '', // 密码的双向绑定
+				flag: true // 登录按钮的防抖
+			}
+		},
 		methods: {
+			// 用户协议
 			protocol() {
-				uni.navigateTo({
+				uni.redirectTo({
 					url: '../protocol/protocol'
 				})
 			},
+			// 用户隐私
 			privacy() {
-				uni.navigateTo({
+				uni.redirectTo({
 					url: '../privacy/privacy'
 				})
+			},
+			// 用户名的事件处理函数
+			userNameHandel(e) {
+				if (!(this.userReg.test(e.target.value))) {
+					this.userNameFlag = true;
+				} else {
+					this.userNameFlag = false;
+				}
+			},
+			// 密码的事件处理函数
+			passwordHandel(e) {
+				if (!(this.passReg.test(e.target.value))) {
+					this.passFlag = true;
+				} else {
+					this.passFlag = false;
+				}
+			},
+			// 登录函数
+			login () {
+				if ((this.userReg.test(this.userName)) && (this.passReg.test(this.password))) {
+					if (this.flag) {
+						this.flag = false;
+						login({
+							username: this.userName,
+							password: this.password
+						}).then((res)=>{
+							let resData = res[1];
+							let { data } = resData;
+							if (data.code == 204) {
+								this.Toast('登录成功');
+								uni.setStorage({
+									key: 'token',
+									data: data.token
+								})
+								setTimeout(()=>{
+									uni.switchTab({
+										url: '../../pages/personil/personil'
+									})
+								},2000)
+							} else if (data.code == 518) {
+								this.Toast('用户名密码错误','none');
+							} else if (data.code == 414) {
+								this.Toast('服务器有问题请稍后重试','none')
+							} else if (data.code == 517) {
+								this.Toast('登录失败，暂无此用户','none');
+							} else if (data.code == 301) {
+								this.Toast('请检查用户名和密码是否完整','none')
+							} else if (data.code == 302) {
+								this.Toast('请检查用户名和密码是否正确','none')
+							}
+						})
+						setTimeout(()=>{
+							this.flag = true;
+						},5000);
+					}
+				}
+			},
+			// 对弹窗进行封装
+			Toast(title, icon) {
+				uni.showToast({
+					title: title,
+					icon: icon
+				})
+				setTimeout(()=>{
+					uni.hideToast()
+				},2000)
 			}
 		}
 	}
 </script>
 
 <style>
-	.protocol,
-	.privacy{
-		color:#1296DB;
-	}
 	.protocol{
 		margin-right:10rpx;
 	}
 	.logoImg{
 		height:100rpx;
+		width:75%;
 		margin:30rpx auto;
 		display:block;
 	}
 	.maliboxInput{
 		width:75%;
 		height:100rpx;
-		color:#f8f8f8;
 		border:none;
 		border-bottom:1px solid #EBEEF7;
 	}
@@ -73,6 +152,7 @@
 		font-size:30rpx;
 		width:75%;
 		display:block;
+		margin-top:20rpx;
 	}
 	.send{
 		width:100%;
@@ -86,11 +166,11 @@
 		background:#98D1CA;
 		margin:20rpx auto;
 	}
-	.login{
-		font-size:20rpx;
+	.register{
+		font-size:28rpx;
+		width:75%;
 	}
 	.sendLogin{
-		width:75%;
 		text-align:left;
 	}
 	.otherLogin{
@@ -107,5 +187,10 @@
 	.UserAgreement{
 		margin:20rpx;
 		font-size:28rpx;
+		color:#999;
+	}
+	.other{
+		position:fixed;
+		bottom:40rpx;
 	}
 </style>

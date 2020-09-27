@@ -37,6 +37,7 @@
 .order-status.data-v-2054bc6c {
   width: 100%;
   height: 200rpx;
+  background: -webkit-gradient(linear, left top, right top, from(#fe3b0f), to(#fc603a));
   background: -webkit-linear-gradient(left, #fe3b0f, #fc603a);
   background: linear-gradient(to right, #fe3b0f, #fc603a);
 }
@@ -79,7 +80,8 @@
   width: 100%;
   height: 200rpx;
   background-color: #FFFFFF;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   margin: -20rpx auto 20rpx;
 }
 .shipping-address .name-phone.data-v-2054bc6c {
@@ -114,7 +116,8 @@
 .order-goods.data-v-2054bc6c {
   width: 100%;
   background-color: #FFFFFF;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
 }
 .order-goods .goods-list.data-v-2054bc6c {
   padding: 0 4%;
@@ -140,7 +143,8 @@
 .order-goods .goods-list .list .thumb image.data-v-2054bc6c {
   width: 160rpx;
   height: 160rpx;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
 }
 .order-goods .goods-list .list .item.data-v-2054bc6c {
   width: 70%;
@@ -211,7 +215,8 @@
   color: #555555;
   font-size: 26rpx;
   border: 2rpx solid #EEEEEE;
-  border-radius: 100rpx;
+  -webkit-border-radius: 100rpx;
+          border-radius: 100rpx;
 }
 .order-goods .goods-list .list .item .order-btn.data-v-2054bc6c {
   display: -webkit-box;
@@ -231,7 +236,8 @@
   color: #555555;
   font-size: 26rpx;
   border: 2rpx solid #EEEEEE;
-  border-radius: 100rpx;
+  -webkit-border-radius: 100rpx;
+          border-radius: 100rpx;
 }
 .order-goods .contact.data-v-2054bc6c {
   display: -webkit-box;
@@ -248,8 +254,10 @@
   width: 100%;
   height: 100rpx;
   background-color: #FFFFFF;
-  box-shadow: 0 0 20rpx #EEEEEE;
-  border-radius: 0 0 20rpx 20rpx;
+  -webkit-box-shadow: 0 0 20rpx #EEEEEE;
+          box-shadow: 0 0 20rpx #EEEEEE;
+  -webkit-border-radius: 0 0 20rpx 20rpx;
+          border-radius: 0 0 20rpx 20rpx;
 }
 .order-goods .contact text.data-v-2054bc6c {
   font-size: 28rpx;
@@ -263,7 +271,8 @@
 .order-info.data-v-2054bc6c {
   width: 100%;
   background-color: #FFFFFF;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   margin: 20rpx auto;
 }
 .order-info .info-list.data-v-2054bc6c {
@@ -303,14 +312,16 @@
   background-color: #EEEEEE;
   color: #555555;
   font-size: 24rpx;
-  border-radius: 50rpx;
+  -webkit-border-radius: 50rpx;
+          border-radius: 50rpx;
   margin-left: 40rpx;
 }
 /* 订单明细 */
 .order-details.data-v-2054bc6c {
   width: 100%;
   background-color: #FFFFFF;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   margin: 20rpx auto;
   padding-bottom: 100rpx;
 }
@@ -399,7 +410,8 @@
   padding: 10rpx 30rpx;
   font-size: 24rpx;
   border: 2rpx solid #C0C0C0;
-  border-radius: 100rpx;
+  -webkit-border-radius: 100rpx;
+          border-radius: 100rpx;
   color: #c0c0c0;
   margin-left: 20rpx;
 }

@@ -22,7 +22,11 @@
         "IntegralDetails/IntegralDetails",
         "ExchangeRecord/ExchangeRecord",
         "orderDetails/orderDetails",
-        "CashierDesk/CashierDesk"
+        "CashierDesk/CashierDesk",
+        "forgetPassword/forgetPassword",
+        "resetPass/resetPass",
+        "userSetUp/userSetUp",
+        "AddressEdit/AddressEdit"
       ]
     }
   ],
@@ -61,6 +65,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap75.json"
+  "usingComponents": {}
 }

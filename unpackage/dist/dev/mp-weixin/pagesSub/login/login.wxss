@@ -1,20 +1,16 @@
 
-.protocol,
-.privacy{
-	color:#1296DB;
-}
 .protocol{
 	margin-right:10rpx;
 }
 .logoImg{
 	height:100rpx;
+	width:75%;
 	margin:30rpx auto;
 	display:block;
 }
 .maliboxInput{
 	width:75%;
 	height:100rpx;
-	color:#f8f8f8;
 	border:none;
 	border-bottom:1px solid #EBEEF7;
 }
@@ -23,6 +19,7 @@
 	font-size:30rpx;
 	width:75%;
 	display:block;
+	margin-top:20rpx;
 }
 .send{
 	width:100%;
@@ -31,16 +28,17 @@
 	width:75%;
 	height:80rpx;
 	text-align:center;
-	border-radius:10rpx;
+	-webkit-border-radius:10rpx;
+	        border-radius:10rpx;
 	color:#999;
 	background:#98D1CA;
 	margin:20rpx auto;
 }
-.login{
-	font-size:20rpx;
+.register{
+	font-size:28rpx;
+	width:75%;
 }
 .sendLogin{
-	width:75%;
 	text-align:left;
 }
 .otherLogin{
@@ -57,5 +55,10 @@
 .UserAgreement{
 	margin:20rpx;
 	font-size:28rpx;
+	color:#999;
+}
+.other{
+	position:fixed;
+	bottom:40rpx;
 }
 

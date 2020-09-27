@@ -54,4 +54,16 @@
 			opacity: 0;
 		}
 	}
+	.outLogin{
+		width:100%;
+		.logoutLogin{
+			background:#f00;
+			border-radius:20rpx;
+			width:100%;
+			color:#fff;
+			position:fixed;
+			bottom:50rpx;
+			left:0rpx;
+		}
+	}
 }

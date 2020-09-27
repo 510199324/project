@@ -6,7 +6,7 @@
 					<text>收货人</text>
 				</view>
 				<view class="content">
-					<input type="text" placeholder="请填写收货人姓名">
+					<input type="text" :value="addressObj.recipients" placeholder="请填写收货人姓名" @input="recipientsHandel($event)"/>
 				</view>
 			</view>
 			<view class="list-input">
@@ -14,54 +14,34 @@
 					<text>手机号</text>
 				</view>
 				<view class="content">
-					<input type="tel" placeholder="请填写收货人手机号">
+					<input type="tel" :value="addressObj.tel" placeholder="请填写收货人手机号" @input="telHandel($event)"/>
 				</view>
 			</view>
 			<view class="list-input">
 				<view class="title">
 					<text>所在地区</text>
 				</view>
-				<view class="content">
-					<input type="tel" placeholder="省市区县/乡镇等">
-				</view>
+				<picker mode="region" :range="years" @change="yearChange">
+				<!-- 	<view style="color:#555;font-size:26rpx;" v-show="addressObj.province">{{ addressObj.province + addressObj.city + addressObj.area }}</view> -->
+					<view style="color:#555;font-size:26rpx;">{{ timetext }}</view>
+				</picker>
 			</view>
 			<view class="list-textarea">
 				<view class="title">
 					<text>详细地址</text>
 				</view>
 				<view class="content">
-					<textarea type="tel" placeholder="街道/楼牌号等" />
+					<textarea type="tel" placeholder="街道/楼牌号等" :value="addressObj.address" @input="addressHandel($event)"/>
 				</view>
 			</view>
 		</view>
 		<view class="tag-default">
-			<view class="tag-list">
-				<view class="title">
-					<text>标签</text>
-				</view>
-				<view class="content">
-					<view class="list action">
-						<text>家</text>
-					</view>
-					<view class="list">
-						<text>公司</text>
-					</view>
-					<view class="list">
-						<text>学校</text>
-					</view>
-				</view>
-			</view>
-			<view class="default-address">
-				<view class="title">
-					<text>默认地址</text>
-				</view>
-				<view class="switch-default">
-					<switch class="red sm" color="#0077EE !important" checked></switch>
-				</view>
+			<view class="deleteAddress" @tap="deleteAddress()" v-show="addressType === '1'">
+				<text>删除地址</text>
 			</view>
 		</view>
 		<view class="footer-btn">
-			<view class="btn">
+			<view class="btn" @tap="save">
 				<text>保存</text>
 			</view>
 		</view>
@@ -69,20 +49,139 @@
 </template>
 
 <script>
+	import { reviseAddress, deleteAddress, addAddress } from '../../api/users/address.js';
 	export default {
 		data() {
 			return {
-				addressType: '2',
-			};
+				addressType: '2', // 判断是否是编辑地址或新增地址
+				addIndex: null, // 地址列表的index
+				timetext: '请选择地区', 
+				province: '', // 省
+				city: '', // 市
+				area: '', // 区
+				address: '', // 详细地址
+				recipients: '', // 收件人
+				tel: '', // 手机号
+				token: '', //用户token
+				addressObj: null
+			}
+		},
+		methods: {
+			addressHandel(e) {
+				this.address = e.target.value;
+			},
+			telHandel(e) {
+				this.tel = e.target.value;
+			},
+			recipientsHandel(e) {
+				this.recipients = e.target.value;
+			},
+			save() {
+				if (this.addressType === '1') {
+					reviseAddress({
+						province: this.province || this.addressObj.prototype,
+						city: this.city || this.addressObj.city,
+						area: this.area || this.addressObj.area,
+						address: this.address || this.addressObj.address,
+						recipients: this.recipients || this.addressObj.recipients,
+						tel: this.tel || this.addressObj.tel,
+						index: this.addIndex
+					},this.token).then((res)=>{
+						let resData = res[1];
+						let { data } = resData;
+						if (data.code == 204) {
+							this.Toast('修改成功')
+							uni.redirectTo({
+								url: '../address/address'
+							})
+						}
+					})
+				}
+				if (this.addressType === '2') {
+					addAddress({
+						province: this.province,
+						city: this.city,
+						area: this.area,
+						address: this.address,
+						recipients: this.recipients,
+						tel: this.tel
+					},this.token).then((res)=>{
+						let resData = res[1];
+						let { data } = resData;
+						if (data.code == 204) {
+							this.Toast('添加成功')
+							uni.redirectTo({
+								url: '../address/address'
+							})
+						}
+					})
+				}
+			},
+			yearChange (e){
+				this.timetext = e.detail.value.join('/');
+				this.province = e.detail.value[0];
+				this.city = e.detail.value[1];
+				this.area = e.detail.value[2];
+			},
+			deleteAddress() {
+				deleteAddress({
+					index: this.addIndex
+				},this.token).then((res)=>{
+					let resData = res[1];
+					let { data } = resData;
+					if (data.code == 204) {
+						this.Toast('删除成功');
+						uni.redirectTo({
+							url: '../address/address'
+						})
+					}
+				})
+			},
+			Toast(title, icon) {
+				uni.showToast({
+					title: title,
+					icon: icon
+				})
+				setTimeout(()=>{
+					uni.hideToast()
+				},2000)
+			}
 		},
 		onLoad(params) {
 			this.addressType = params.type||'2';
+			this.addIndex = params.index;
+			this.addressObj = JSON.parse(params.address);
+			this.timetext = this.addressObj.province + '/' + this.addressObj.city + '/' + this.addressObj.area;
 			uni.setNavigationBarTitle({
 				title: this.addressType === '1' ? '编辑收货地址':'新建收货地址'
+			})
+		},
+		onShow() {
+			let that = this;
+			uni.getStorage({
+				key: 'token',
+				success(res) {
+					that.token = res.data;
+				}
 			})
 		}
 	}
 </script>
+
+<style>
+	　　input::-webkit-input-placeholder{
+	            color:red;
+	        }
+	    input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+	            color:red;
+	        }
+	    input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+	            color:red;
+	        }
+	    input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+	            color:red;
+	        }
+</style>
 
 <style scoped lang="scss">
 	.page{
@@ -93,7 +192,6 @@
 		height: 100%;
 		background-color: #FFFFFF;
 	}
-	
 	
 	.address-input{
 		width: 100%;
@@ -160,63 +258,10 @@
 	.tag-default{
 		width: 100%;
 		border-top: 20rpx solid #f6f6f6;
-		.tag-list{
-			display: flex;
-			align-items: center;
-			padding: 0 4%;
-			height: 200rpx;
-			.title{
-				width: 20%;
-				height: 80%;
-				text{
-					font-size: 26rpx;
-					color: #222222;
-				}
-			}
-			.content{
-				display: flex;
-				width: 70%;
-				height: 80%;
-				.list{
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					min-width: 120rpx;
-					height: 60rpx;
-					border: 2rpx solid #f6f6f6;
-					border-radius: 60rpx;
-					margin-right: 20rpx;
-					text{
-						color: #555555;
-						font-size: 24rpx;
-					}
-				}
-				.action{
-					background-color: $base;
-					border: 2rpx solid $base;
-					text{
-						color: #FFFFFF;
-					}
-				}
-			}
-		}
-		.default-address{
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 0 4%;
-			height: 100rpx;
-			.title{
-				display: flex;
-				align-items: center;
-				width: 20%;
-				height: 80%;
-			}
-			.switch-default{
-				uni-switch .uni-switch-input{
-					background: #22AA44 !important;
-				}
-			}
+		.deleteAddress{
+			padding:0 4%;
+			margin:20rpx 0rpx;
+			color:#f40;
 		}
 	}
 	

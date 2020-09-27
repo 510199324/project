@@ -15,7 +15,8 @@
 	height:300rpx;
 	background:#fff;
 	margin:0rpx 15rpx 15rpx 15rpx;
-	border-radius:15rpx;
+	-webkit-border-radius:15rpx;
+	        border-radius:15rpx;
 }
 .wrap{
 	-webkit-flex-wrap:wrap;
@@ -41,7 +42,8 @@
 	margin-right:5rpx;
 }
 .shop{
-	border-radius:50%;
+	-webkit-border-radius:50%;
+	        border-radius:50%;
 	background:#28D8B4;
 }
 .money{

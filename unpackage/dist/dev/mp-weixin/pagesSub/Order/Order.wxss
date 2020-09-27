@@ -8,7 +8,8 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	        align-items: center;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 }
 .tab-header .tab-item {
 	color: #333333;
@@ -26,7 +27,8 @@
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
 	        justify-content: center;
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	border-bottom: 1px solid #fff;
 }
 .tab-header .cur {
@@ -73,7 +75,8 @@
   padding: 0 4%;
   min-height: 400rpx;
   background-color: #FFFFFF;
-  border-radius: 20rpx;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
   margin-bottom: 20rpx;
 }
 .order-list .list .title-status.data-v-4807dae8 {
@@ -119,7 +122,8 @@
   font-size: 34rpx;
   color: #222222;
   background-color: #f6f6f6;
-  border-radius: 100%;
+  -webkit-border-radius: 100%;
+          border-radius: 100%;
   margin-left: 20rpx;
 }
 .order-list .list .goods-list.data-v-4807dae8 {
@@ -148,7 +152,8 @@
 .order-list .list .goods-list .goods .thumb image.data-v-4807dae8 {
   width: 160rpx;
   height: 160rpx;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
 }
 .order-list .list .goods-list .goods .item.data-v-4807dae8 {
   display: -webkit-box;
@@ -204,7 +209,8 @@
 .order-list .list .status-btn .btn.data-v-4807dae8 {
   padding: 10rpx 30rpx;
   border: 2rpx solid #EEEEEE;
-  border-radius: 100rpx;
+  -webkit-border-radius: 100rpx;
+          border-radius: 100rpx;
   margin-left: 20rpx;
 }
 .order-list .list .status-btn .btn text.data-v-4807dae8 {

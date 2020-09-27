@@ -102,12 +102,24 @@
 				},
 				{
 					"path": "ExchangeRecord/ExchangeRecord"
-				},
+				}, 
 				{
 					"path": "orderDetails/orderDetails"
 				},
 				{
 					"path": "CashierDesk/CashierDesk"
+				},
+				{
+					"path": "forgetPassword/forgetPassword"
+				},
+				{
+					"path": "resetPass/resetPass"
+				},
+				{
+					"path": "userSetUp/userSetUp"
+				},
+				{
+					"path": "AddressEdit/AddressEdit"
 				}
 			]
 		}

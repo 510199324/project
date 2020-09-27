@@ -1,31 +1,36 @@
-<template>
+[[]]<template>
 	<view class="page">
 		<!-- 地址列表 -->
 		<view class="address-list">
-			<view class="list" v-for="(item,index) in 4" :key="index">
+			<view class="list" v-for="(item,index) in addressList" :key="index" v-show="addressList.length > 0">
 				<view class="name-phone">
 					<view class="name">
-						<text class="one-omit">哇哈哈</text>
+						<text class="one-omit">{{item.recipients}}</text>
 					</view>
 					<view class="phone">
-						<text>188****8888</text>
-						<text class="tag">默认</text>
-						<text class="tag blue">公司</text>
+						<text>{{item.tel}}</text>
 					</view>
 				</view>
 				<view class="address-edit">
 					<view class="address">
-						<text>黑龙江哈尔滨市道里区爱建路你猜楼5号886室</text>
+						<text>{{item.province + item.city + item.area}}</text>
 					</view>
-					<view class="edit" @click.stop="onAddressEdit(1)">
-						<text class="iconfont icon-edit1"></text>
+					<view class="edit" @tap.stop="onAddressEdit(index,item)">
+						<image src="../../static/imags/modify.png" class="modify"></image>
 					</view>
+				</view>
+			</view>
+			<view class="addresslistAir" v-show="addressList.length === 0">
+				<image src="../../static/imags/address.png" class="AirImg margin"></image>
+				<view class="text">
+					<text>还没有地址哦~</text>
+					<text>添加地址后买买买吧</text>
 				</view>
 			</view>
 		</view>
 		<!-- 添加地址 -->
 		<view class="add-address">
-			<view class="btn" @click="onAddressEdit(2)">
+			<view class="btn" @tap="addAddress">
 				<text>新建收货地址</text>
 			</view>
 		</view>
@@ -33,21 +38,41 @@
 </template>
 
 <script>
+	import { getAddress } from '../../api/users/address.js';
 	export default {
 		data() {
 			return {
-				
+				addressList: null
 			};
 		},
 		methods:{
 			/**
 			 * 编辑地址点击
 			 */
-			onAddressEdit(type){
+			onAddressEdit(index,item){ 
+				item = JSON.stringify(item);
 				uni.navigateTo({
-					url: '/pages/AddressEdit/AddressEdit?type=' + type,
+					url: `../AddressEdit/AddressEdit?index=${index}&type=1&address=${item}`,
+				})
+			},
+			// 新增地址
+			addAddress() {
+				uni.navigateTo({
+					url: `../AddressEdit/AddressEdit?type=2`
 				})
 			}
+		},
+		onShow() {
+			let that = this;
+			uni.getStorage({
+				key: 'token',
+				success(res) {
+					getAddress(res.data).then((res)=>{
+						that.addressList = res[1].data.data;
+						console.log(res[1].data.data)
+					})
+				}
+			})
 		}
 	}
 </script>
@@ -67,6 +92,23 @@
 		width: 100%;
 		background-color: #FFFFFF;
 		padding-bottom: 120rpx;
+		.addresslistAir{
+			position:fixed;
+			left:50%;
+			top:50%;
+			transform:translate(-50%,-50%);
+			.AirImg{
+				width:120rpx;
+				height:120rpx;
+				display:block;
+				margin-bottom:20rpx;
+			}
+			text{
+				display:block;
+				text-align:center;
+				padding:20rpx 0rpx;
+			}
+		}
 		.list{
 			padding: 0 4%;
 			height: 160rpx;
@@ -98,17 +140,6 @@
 						font-weight: bold;
 						color: #222222;
 					}
-					.tag{
-						padding: 4rpx 8rpx;
-						font-size: 24rpx;
-						color: #FFFFFF;
-						background-color: $base;
-						border-radius: 4rpx;
-						margin-left: 20rpx;
-					}
-					.blue{
-						background-color: #0099FF;
-					}
 				}
 			}
 			.address-edit{
@@ -130,12 +161,18 @@
 				.edit{
 					display: flex;
 					align-items: center;
-					justify-content: flex-end;
+					justify-content: center;
 					width: 10%;
 					height: 100%;
 					text{
 						font-size: 38rpx;
 						color: #555555;
+					}
+					.modify{
+						width:40rpx;
+						height:40rpx;
+						display:block;
+						
 					}
 				}
 			}

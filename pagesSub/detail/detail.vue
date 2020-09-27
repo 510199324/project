@@ -126,7 +126,7 @@
 			}
 		},
 		created() {
-			this.getgoodList();
+			// this.getgoodList();
 		}
 	}
 </script>
