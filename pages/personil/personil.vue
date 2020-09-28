@@ -7,7 +7,7 @@
 				<view class="login-box" @tap="login" v-show="!userInfo.name">
 					<text>请登录</text>
 				</view>
-				<view class="login-box" @tap="setUser" v-show="userInfo.name">
+				<view class="login-box" @tap="userDetail" v-show="userInfo.name">
 					<text>{{userInfo.name}}</text>
 				</view>
 			</view>
@@ -172,9 +172,9 @@
 					})
 				}
 			},
-			setUser() {
+			userDetail() {
 				uni.navigateTo({
-					url: '../../pagesSub/userSetUp/userSetUp'
+					url: '../../pagesSub/userDetail/userDetail'
 				})
 			}
 		}

@@ -31,7 +31,7 @@
 
 <script>
 	import mySwiper from '../../components/my-components/swiper/my-swiper.vue';
-	import {getGood} from '../../api/home/home.js';
+	import {getGood} from '../../api/shops/shops.js';
 	import goodList from '../../components/my-components/goodList/goodList.vue';
 	import classifyList from '../../components/my-components/detailList/detailList.vue';
 	export default {
@@ -44,13 +44,11 @@
 		data() {
 			return {
 				imgs: [ // 轮播图图片列表
-					'/static/test/images/a.jpg',
-					'/static/test/images/b.jpg',
-					'/static/test/images/c.jpg',
-					'/static/test/images/d.jpg',
-					'/static/test/images/e.jpg'
+					'/static/swiperImg/lunbo1.jpg',
+					'/static/swiperImg/lunbo2.jpg',
+					'/static/swiperImg/lunbo3.jpg'
 				],
-				goodShopList: null, // 商品列表
+				goodShopList: [], // 商品列表
 				classifyImgs: [ // 分类图片列表
 					'/static/imags/bathroom.png',
 					'/static/imags/bed.jpg',
@@ -68,14 +66,16 @@
 			getgoodList() {
 				let arr = [getGood()];
 				Promise.all(arr).then((res)=>{
-					this.goodShopList = res[0][1].data.data;
+					for (let i = 0; i < 30; i ++) {
+						this.goodShopList.push(res[0][1].data.data[i])
+					}
 				}).catch((err)=>{
 					console.log(err)
 				})
 			}
 		},
 		created() {
-			// this.getgoodList();
+			this.getgoodList();
 		}
 	}
 </script>

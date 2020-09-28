@@ -116,10 +116,13 @@
 					"path": "resetPass/resetPass"
 				},
 				{
-					"path": "userSetUp/userSetUp"
+					"path": "userDetail/userDetail"
 				},
 				{
 					"path": "AddressEdit/AddressEdit"
+				},
+				{
+					"path": "setUser/setUser"
 				}
 			]
 		}

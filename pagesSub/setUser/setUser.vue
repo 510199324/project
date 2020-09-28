@@ -8,7 +8,6 @@
 				</view>
 				<view class="more-content">
 					<image src="../../static/imags/cpersonil.png" mode=""></image>
-					<text class="iconfont icon-more more"></text>
 				</view>
 			</view>
 			<view class="list" @click="onNickname">
@@ -16,8 +15,7 @@
 					<text>昵称</text>
 				</view>
 				<view class="more-content">
-					<text class="content">{{nickname}}</text>
-					<text class="iconfont icon-more more"></text>
+					<input type="text" class="content" :value="userInfo.data.name">
 				</view>
 			</view>
 			<view class="list">
@@ -26,7 +24,6 @@
 				</view>
 				<view class="more-content">
 					<text class="content">{{sexText}}</text>
-					<text class="iconfont icon-more more"></text>
 				</view>
 				<view class="picker">
 					<picker @change="sexPickerChange" :value="sexIndex" :range="sexArray">
@@ -40,7 +37,6 @@
 				</view>
 				<view class="more-content">
 					<text class="content">{{birthday}}</text>
-					<text class="iconfont icon-more more"></text>
 				</view>
 				<view class="picker">
 					<picker @change="birthdayPickerChange" mode="date" :value="birthdayDate" :start="startDate" :end="endDate">
@@ -48,12 +44,26 @@
 					</picker>
 				</view>
 			</view>
+			<view class="list" @click="onNickname">
+				<view class="title">
+					<text>邮箱</text>
+				</view>
+				<view class="more-content">
+					<input type="text" class="content" :value="userInfo.data.email">
+				</view>
+			</view>
+			<view class="list" @click="onNickname">
+				<view class="title">
+					<text>个人简介</text>
+				</view>
+				<view class="more-content">
+					<textarea class="content" style="height:100rpx;" :value="userInfo.data.synopsis ? userInfo.data.synopsis : ''" />
+				</view>
+			</view>
 			<view class="outLogin">
-				<button class="logoutLogin">退出登录</button>
+				<button class="logoutLogin">保存</button>
 			</view>
 		</view>
-		<!-- 提示框 -->
-		<DialogBox ref="DialogBox"></DialogBox>
 	</view>
 </template>
 
@@ -65,7 +75,7 @@
 			})
 			return {
 				// 性别
-				sexArray: ['男','女','保密'],
+				sexArray: ['男','女'],
 				sexIndex: 0,
 				sexText: '保密',
 				// 生日
@@ -73,7 +83,6 @@
 				startDate: this.getDate('start'),
 				endDate: this.getDate('end'),
 				birthday: '2020-02-02',
-				DialogBox: {},
 				// 昵称
 				nickname: '爱跳舞的汤姆猫',
 				userInfo: null
@@ -127,20 +136,12 @@
 			 * 昵称点击
 			 */
 			onNickname(){
-				this.$refs['DialogBox'].confirm({
-					title: '更改昵称',
-					placeholder: '请输入修改的昵称',
-					value: this.nickname,
-					DialogType: 'input',
-					animation: 0
-				}).then((res)=>{
-					this.nickname = res.value;
-				})
+				
 			}
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-	@import 'userSetUp.scss';
+	@import './setUser.scss';
 </style>

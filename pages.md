@@ -26,6 +26,7 @@
 - searchGoodsList  -----  搜索列表
 - paySuccess  ------  支付成功
 - resetPass  ------   重新设置密码
+- userDetail  ------  用户详情页面 
 - forgetPassword  ------  忘记密码
 
 #### 未写样式页面

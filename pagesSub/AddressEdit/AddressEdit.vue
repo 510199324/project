@@ -168,21 +168,6 @@
 	}
 </script>
 
-<style>
-	　　input::-webkit-input-placeholder{
-	            color:red;
-	        }
-	    input::-moz-placeholder{   /* Mozilla Firefox 19+ */
-	            color:red;
-	        }
-	    input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
-	            color:red;
-	        }
-	    input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
-	            color:red;
-	        }
-</style>
-
 <style scoped lang="scss">
 	.page{
 		position: absolute;

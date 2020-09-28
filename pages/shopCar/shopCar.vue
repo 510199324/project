@@ -37,7 +37,7 @@
 <script>
 	import goodList from '../../components/my-components/goodList/goodList.vue';
 	import shop from '../../components/my-components/shop/shop.vue';
-	import {getGood} from '../../api/home/home.js';
+	import {getGood} from '../../api/shops/shops.js';
 	export default {
 		components: {
 			goodList,

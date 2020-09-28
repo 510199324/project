@@ -25,7 +25,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.page.data-v-7013b7a0 {
+.page.data-v-39dbe50a {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -34,14 +34,14 @@
   background-color: #f6f6f6;
 }
 /* 用户信息列表 */
-.user-list.data-v-7013b7a0 {
+.user-list.data-v-39dbe50a {
   padding: 0 4%;
   background-color: #FFFFFF;
   -webkit-border-radius: 20rpx;
           border-radius: 20rpx;
   margin: 20rpx auto;
 }
-.user-list .list.data-v-7013b7a0 {
+.user-list .list.data-v-39dbe50a {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -56,7 +56,7 @@
   height: 100rpx;
   border-bottom: 2rpx solid #f6f6f6;
 }
-.user-list .list .title.data-v-7013b7a0 {
+.user-list .list .title.data-v-39dbe50a {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -64,11 +64,21 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.user-list .list .title text.data-v-7013b7a0 {
+.user-list .list .title text.data-v-39dbe50a {
   font-size: 28rpx;
   color: #222222;
 }
-.user-list .list .more-content.data-v-7013b7a0 {
+.user-list .list .setUp.data-v-39dbe50a {
+  border: 1px solid #f40;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
+  padding: 10rpx;
+}
+.user-list .list .setUp text.data-v-39dbe50a {
+  color: #f40;
+  font-size: 28rpx;
+}
+.user-list .list .more-content.data-v-39dbe50a {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -76,31 +86,31 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.user-list .list .more-content image.data-v-7013b7a0 {
+.user-list .list .more-content image.data-v-39dbe50a {
   width: 100rpx;
   height: 100rpx;
   -webkit-border-radius: 100%;
           border-radius: 100%;
 }
-.user-list .list .more-content .content.data-v-7013b7a0 {
+.user-list .list .more-content .content.data-v-39dbe50a {
   font-size: 28rpx;
   color: #959595;
 }
-.user-list .list .more-content .more.data-v-7013b7a0 {
+.user-list .list .more-content .more.data-v-39dbe50a {
   font-size: 24rpx;
   color: #959595;
   margin-left: 20rpx;
 }
-.user-list .list .picker.data-v-7013b7a0 {
+.user-list .list .picker.data-v-39dbe50a {
   position: absolute;
   width: 100%;
   height: 100%;
   opacity: 0;
 }
-.user-list .outLogin.data-v-7013b7a0 {
+.user-list .outLogin.data-v-39dbe50a {
   width: 100%;
 }
-.user-list .outLogin .logoutLogin.data-v-7013b7a0 {
+.user-list .outLogin .logoutLogin.data-v-39dbe50a {
   background: #f00;
   -webkit-border-radius: 20rpx;
           border-radius: 20rpx;
