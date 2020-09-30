@@ -27,7 +27,8 @@
         "resetPass/resetPass",
         "userDetail/userDetail",
         "AddressEdit/AddressEdit",
-        "setUser/setUser"
+        "setUser/setUser",
+        "ConfirmOrder/ConfirmOrder"
       ]
     }
   ],
@@ -67,5 +68,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap86.json"
+  "sitemapLocation": "sitemap54.json"
 }

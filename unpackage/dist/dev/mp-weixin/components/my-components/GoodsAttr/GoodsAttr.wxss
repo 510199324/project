@@ -108,20 +108,6 @@
 .cu-dialog .goods-data .item .price .max.data-v-4752971c {
   font-size: 34rpx;
 }
-.cu-dialog .goods-data .item .inventory.data-v-4752971c {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-  width: 100%;
-  height: 40rpx;
-}
-.cu-dialog .goods-data .item .inventory text.data-v-4752971c {
-  font-size: 24rpx;
-  color: #C0C0C0;
-}
 .cu-dialog .attr-size.data-v-4752971c {
   padding: 0 4%;
   height: 80%;
@@ -141,6 +127,7 @@
           align-items: center;
   width: 100%;
   height: 80rpx;
+  margin: 10rpx 0rpx;
 }
 .cu-dialog .attr-size .attr-list .title text.data-v-4752971c {
   font-size: 26rpx;
@@ -184,6 +171,7 @@
   width: 100%;
   height: 100rpx;
   display: block;
+  margin-bottom: 100rpx;
 }
 .cu-dialog .attr-size .attr-number .tit.data-v-4752971c {
   font-size: 24rpx;
@@ -194,23 +182,24 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
 }
-.cu-dialog .attr-size .attr-number .numberOne text.data-v-4752971c {
-  font-size: 26rpx;
-  color: #222222;
-}
-.cu-dialog .attr-size .attr-number .numberOne input.data-v-4752971c {
-  width: 80rpx;
-  height: 40rpx;
+.cu-dialog .attr-size .attr-number .numberOne .count.data-v-4752971c {
   font-size: 24rpx;
   color: #222222;
-  background-color: #EEEEEE;
+  background-color: #f8f8f8;
   margin: 0 10rpx;
   -webkit-border-radius: 6rpx;
           border-radius: 6rpx;
+  text-align: center;
+  padding: 20rpx;
+}
+.cu-dialog .attr-size .attr-number .numberOne .icon.data-v-4752971c {
+  -webkit-align-self: center;
+          align-self: center;
+  background: #eee;
+  padding: 20rpx 15rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
 }
 .cu-dialog .attr-btn.data-v-4752971c {
   position: absolute;
@@ -220,12 +209,6 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-          justify-content: space-between;
   width: 100%;
   height: 100rpx;
   background-color: #FFFFFF;
@@ -241,7 +224,7 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
           justify-content: center;
-  width: 48%;
+  width: 100%;
   height: 70rpx;
   background-color: #f0ad4e;
   color: #FFFFFF;

@@ -28,6 +28,7 @@
 - resetPass  ------   重新设置密码
 - userDetail  ------  用户详情页面 
 - forgetPassword  ------  忘记密码
+- ConfirmOrder ------  支付页面
 
 #### 未写样式页面
 - find ----  发现

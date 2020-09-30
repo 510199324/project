@@ -1,9 +1,9 @@
 <template>
-	<view class="cu-modal bottom-modal" :class="{'show':isShow}" @click="hide">
+	<view class="cu-modal bottom-modal" :class="{'show':isShow}">
 	  <view class="cu-dialog">
 			<view class="goods-data">
 				<view class="thumb">
-					<image src="https://axhub.im/pro/bb1f7bd347952764/images/%E9%A6%96%E9%A1%B5/u640-0.png" mode=""></image>
+					<image :src="detail.content[0]" mode=""></image>
 				</view>
 				<view class="item">
 					<view class="title">
@@ -11,38 +11,44 @@
 					</view>
 					<view class="price">
 						<text class="min">￥</text>
-						<text class="max">299</text>
-						<text class="min">.00</text>
-					</view>
-					<view class="inventory">
-						<text>库存：3000</text>
+						<text class="max">{{price}}</text>
 					</view>
 				</view>
 			</view>
 			<view class="attr-size">
-				<view class="attr-list" v-for="(item,index) in AttrSizeList" :key="index">
-					<view class="title">
-						<text>{{item.attr}}</text>
+				<view class="attr-list">
+					<view v-if="detail.title == '颜色'">
+						<view class="title">
+							<text>颜色</text>
+						</view>
+						<view class="size-list">
+							<view class="list" v-for="(value,idx) in detail.name" :key="idx" @tap="attrItem(value, idx)">
+								<text>{{value}}</text>
+							</view>
+						</view>
 					</view>
-					<view class="size-list">
-						<div class="list" v-for="(value,idx) in item.SizeList" 
-						:class="{'action':AttrSizeList[index].index === idx}"
-						@click.stop="onAttrSize(item,value,index,idx)" :key="idx">
-							<text>{{value.size}}</text>
-						</div>
+					<view v-if="detail.title == '尺寸'">
+						<view class="title">
+							<text>尺寸</text>
+						</view>
+						<view class="size-list">
+							<view class="list" v-for="(value,idx) in detail.name" :key="idx" @tap="attrItem(value, idx)">
+								<text>{{value}}</text>
+							</view>
+						</view>
 					</view>
 				</view>
-				<view class="attr-number" @click.stop="onStop">
+				<view class="attr-number">
 					<view class="tit">购买数量</view>
 					<view class="numberOne">
-						<text class="iconfont icon-jian"></text>
-						<input type="tel" value="1" maxlength="8">
-						<text class="iconfont icon-jia"></text>
+						<text class="icon" @tap="countDn" style="padding-left:20rpx;padding-right:20rpx;">-</text>
+						<text class="count">{{count}}</text>
+						<text class="icon" @tap="countUp">+</text>
 					</view>
 				</view>
 			</view>
 			<view class="attr-btn">
-				<view class="add-buy" @click="onConfirm(BuyType)">立即购买</view>
+				<view class="add-buy" @tap="confirm">确认</view>
 			</view>
 		</view>
 	</view>
@@ -55,79 +61,46 @@
 				isShow: false,
 				AttrIndex: 0,
 				SizeIndex: 0,
-				AttrSizeList:[
-					{
-						index: 0,
-						attr: '颜色',
-						SizeList: [
-							{
-								index: 0,
-								size: '白色'
-							},{
-								index: 1,
-								size: '黑色'
-							},{
-								index: 2,
-								size: '粉丝'
-							},{
-								index: 3,
-								size: '灰色'
-							},
-						],
-					},{
-						index: 0,
-						attr: '尺码',
-						SizeList: [
-							{
-								index: 0,
-								size: 'M尺码'
-							},{
-								index: 1,
-								size: 'L尺码'
-							},{
-								index: 2,
-								size: 'XL尺码'
-							},{
-								index: 3,
-								size: 'XXL尺码'
-							},
-						],
-					}
-				],
-				// 购买类型
 				BuyType: 0,
-			};
+				count: 1
+			}
+		},
+		props: {
+			detail: {
+				type: Object,
+				default: {}
+			},
+			price: {
+				type: String,
+				default: ''
+			}
 		},
 		methods:{
-			/**
-			 * 显示 
-			 * @param {Number} type 1 点击选择 2 加入购物 3 立即购买
-			 */
-			show(type){
-				this.BuyType = type;
-				this.isShow = true;
-			},
-			hide(){
-				this.isShow = false;
-			},
-			onStop(){
-				
-			},
-			/**
-			 * 属性选择点击
-			 */
-			onAttrSize(item,value,index,idx){
-				this.AttrSizeList[index].index = idx;
-				this.AttrIndex = item.index;
-				this.SizeIndex = value.index;
-			},
-			/**
-			 * 确认点击
-			 */
-			onConfirm(type){
-				uni.navigateTo({
-					url: '/pages/ConfirmOrder/ConfirmOrder'
+			attrItem(value, index) {
+				this.$emit('onattr',{
+					parameter: value,
+					index
 				})
+				this.AttrIndex = index;
+			},
+			countUp() {
+				this.count ++;
+				this.$emit('oncount',{
+					count: this.count
+				})
+			},
+			countDn() {
+				if (this.count == 0) {
+					this.count = 0;
+				} else {
+					this.count --;
+					this.$emit('oncount',{
+						count: this.count
+					})
+				}
+			},
+			confirm() {
+				this.$emit('confirm')
 			}
 		}
 	}

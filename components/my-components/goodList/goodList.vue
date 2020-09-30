@@ -3,7 +3,7 @@
 		<view class="flex wrap">
 			<view class="'good-list flex-shrink margin-top" v-for="(item, index) in goodShopList" :key="index">
 				<navigator hover-class="none" :url="src + item.type_one + '&id=' + item.id">
-					<image class="images" :src="JSON.parse(item.img_list)[0]"></image>
+					<image class="images" :src="item.img_list[0]"></image>
 					<text class="title">{{item.title}}</text>
 					<view class="flex-between money">
 						<text class="price">￥{{item.price}}</text>

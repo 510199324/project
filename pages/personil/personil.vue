@@ -79,9 +79,6 @@
 				token: null // token
 			}
 		},
-		computed: {
-			
-		},
 		onShow(){
 			let that = this;
 			uni.getStorage({
@@ -95,11 +92,6 @@
 								title: '登录失效请重新登录',
 								icon: 'none'
 							})
-							setTimeout(()=>{
-								uni.navigateTo({
-									url: '../../pagesSub/login/login'
-								})
-							},1500)
 						} else if (resData.code === 204) {
 							uni.setStorage({
 								key: 'userInfo',

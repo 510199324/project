@@ -3,13 +3,13 @@
 		<view class="detailHome">
 			<view class="swiper">
 				<swiper :indicator-dots="false" :autoplay="false" :interval="3000" :duration="400" class="swiperCom" @change="change">
-					<view class="detailSwiper" v-for="(item, index) in JSON.parse(detailList.img_list)" :key="index">
+					<view class="detailSwiper" v-for="(item, index) in detailList.img_list.split(',')" :key="index">
 						<swiper-item>
 							<image :src="item" mode="widthFix" class="deteilImg" @tap="previewImage(index)"></image>
 						</swiper-item>
 					</view>
 				</swiper>
-				<text class="number">{{JSON.parse(detailList.img_list).length}}/{{index}}</text>
+				<text class="number">{{detailList.img_list.split(',').length}}/{{index}}</text>
 			</view>
 			<view class="detailText">
 				<view class="flex-between">
@@ -24,13 +24,13 @@
 			</view>
 			<view class="detailList">
 				<text class="like">猜你喜欢</text>
-				<goodList :goodShopList="goodShopList"/>
+				<goodList :goodShopList="goodShopList" :src="'../../pagesSub/detail/detail?type_one='" />
 			</view>
 		</view>
 		<uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup"  @click="onClick" @buttonClick="buttonClick" class="goods"/>
 		<view class="backFather" v-show="hide">
 			<view class="back" @tap="hideAlert"></view>
-			<good-attr class="fixed"></good-attr>
+			<good-attr class="fixed" :detail="detail" :price="price" @oncount="count" @onattr="attr" @confirm="confirm"></good-attr>
 		</view>
 	</view>
 </template>
@@ -38,25 +38,13 @@
 <script>
 	import uniGoodsNav from '@/components/uni-goods-nav/uni-goods-nav.vue';
 	import goodList from '../../components/my-components/goodList/goodList.vue';
-	import { getGood } from '../../api/shops/shops.js';
+	import { getGood, getTypeOne } from '../../api/shops/shops.js';
 	import goodAttr from '../../components/my-components/GoodsAttr/GoodsAttr.vue';
 	export default {
 		components: {
 			uniGoodsNav,
 			goodList,
 			goodAttr
-		},
-		onLoad({id}) {
-			console.log(id)
-			let arr = [getGood({
-				id: id
-			})];
-			Promise.all(arr).then(res=>{
-				this.detailList = res[0][1].data.data[0];
-				console.log(this.detailList)
-			}).cacth(err=>{
-				console.log(err)
-			});
 		},
 		data () {
 		    return {
@@ -84,31 +72,90 @@
 					 
 		        }],
 				detailList: null,  // 商品详情
-				hide: true  // 控制添加购物车和购买的框显示和隐藏
+				hide: false,  // 控制添加购物车和购买的框显示和隐藏
+				price: '', // 子组件的价格
+				detail: null, // 子组件的详情
+				specification: '', // 尺寸或者颜色
+				quantity: 1, // 购买或者购物车数量
+				confirmText: '', // 点击购物车或者立即购买的提示
+				imgIndex: 0
 		    }
 		},
+		onLoad({id, type_one}) {
+			console.log(id)
+			let arr = [getGood({
+				id
+			}),getTypeOne({
+				type_one
+			})];
+			Promise.all(arr).then(res=>{
+				this.detailList = res[0][1].data.data[0];
+				this.price = this.detailList.price;
+				this.detail = JSON.parse(this.detailList.parameter);
+				this.goodShopList = res[1][1].data.data;
+			}).catch(err=>{
+				console.log(err)
+			});
+		},
 		methods: {
+			attr(data) {
+				let { parameter, index } = data;
+				this.specification = parameter;
+				this.imgIndex = index;
+			},
+			count(data) {
+				let { count } = data;
+				this.quantity = count;
+			},
 			onClick(e) {
-				// console.log(e)
+				
 			}, 
 			buttonClick(e) {
-				// console.log(e)
+				this.hide = true;
+				this.confirmText = e.content.text;
+			},
+			confirm() {
+				if (this.confirmText == '加入购物车') {
+					if (this.specification === '' || this.quantity === 0) {
+						uni.showToast({
+							title: '请选择规格',
+							icon: 'none'
+						});
+						setTimeout(()=>{
+							uni.hideToast();
+						},1500)
+					}
+				}
+				if (this.confirmText == '立即购买') {
+					if (this.specification === '' || this.quantity === 0) {
+						uni.showToast({
+							title: '请选择规格',
+							icon: 'none'
+						});
+						setTimeout(()=>{
+							uni.hideToast();
+						},1500)
+					} else {
+						uni.navigateTo({
+							url: '../ConfirmOrder/ConfirmOrder?detail='+JSON.stringify({
+								specification: this.specification,
+								quantity: this.quantity,
+								id: {
+									title: this.detailList.title,
+									price: this.detailList.price,
+								}
+							}) + '&imgUrl=' + JSON.parse(this.detailList.parameter).content[this.imgIndex]
+						})
+					}
+				}
 			},
 			change(e) {
 				this.index = e.detail.current + 1;
 			},
 			previewImage(index) {
 				uni.previewImage({
-					urls: JSON.parse(this.detailList.img_list),
+					urls: this.detailList.img_list.split(','),
 					current: index
-				})
-			},
-			getgoodList() {
-				let arr = [getGood()];
-				Promise.all(arr).then((res)=>{
-					this.goodShopList = res[0][1].data.data;
-				}).catch((err)=>{
-					console.log(err)
 				})
 			},
 			hideAlert() {
@@ -116,7 +163,6 @@
 			}
 		},
 		created() {
-			// this.getgoodList();
 		}
 	}
 </script>

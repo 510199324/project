@@ -19,15 +19,12 @@
 				<goodList :goodShopList="goodShopList"/>
 			</view>
 		</view>
-		<view class="Settlement flex-between" v-show="false">
+		<view class="Settlement flex-between" v-show="true">
 			<view class="selectAll flex-align-center">
-				<label class="checkBox">
-					<checkbox class="check" value="a" /><text>全选</text>
-				</label>
-			</view>
-			<view class="SettlementBtn flex">
 				<text class="total">合计:</text>
 				<text class="totalMoney">￥{{arr.length}}</text>
+			</view>
+			<view class="SettlementBtn flex">
 				<button class="settlementBtn">结算({{arr1.length}})</button>
 			</view>
 		</view>

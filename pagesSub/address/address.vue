@@ -2,7 +2,7 @@
 	<view class="page">
 		<!-- 地址列表 -->
 		<view class="address-list">
-			<view class="list" v-for="(item,index) in addressList" :key="index" v-show="addressList.length > 0">
+			<view class="list" v-for="(item,index) in addressList" :key="index" v-show="addressList.length > 0" @tap="getAddress(item)">
 				<view class="name-phone">
 					<view class="name">
 						<text class="one-omit">{{item.recipients}}</text>
@@ -42,7 +42,8 @@
 	export default {
 		data() {
 			return {
-				addressList: null
+				addressList: null,
+				id: ''
 			};
 		},
 		methods:{
@@ -60,7 +61,19 @@
 				uni.navigateTo({
 					url: `../AddressEdit/AddressEdit?type=2`
 				})
+			},
+			getAddress(item) {
+				if (this.id === '1') {
+					uni.redirectTo({
+						url: '../ConfirmOrder/ConfirmOrder?item=' + JSON.stringify(item)
+					})
+				} else {
+					return false;
+				}
 			}
+		},
+		onLoad({id}) {
+			this.id = id;
 		},
 		onShow() {
 			let that = this;
