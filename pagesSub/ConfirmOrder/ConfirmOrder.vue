@@ -52,7 +52,7 @@
 				<div class="list">
 					<view class="title">留言</view>
 					<view class="content">
-						<input placeholder="选填,建议先和商家沟通确认" />
+						<input placeholder="选填,建议先和商家沟通确认" v-model="postScript" />
 					</view>
 				</div>
 			</view>
@@ -60,7 +60,7 @@
 		<!-- 优惠 -->
 		<view class="discounts-data">
 			<view class="discounts">
-				<div class="list" @click="$refs['UseCoupon'].show()">
+				<div class="list">
 					<view class="title">优惠券</view>
 					<view class="content">
 						<text>无可用</text>
@@ -106,7 +106,8 @@
 </template>
 
 <script>
-	import { getAddress } from '../../api/users/address.js';
+	import { addOrder } from '@/api/shops/order.js';
+	import { getAddress } from '@/api/users/address.js';
 	export default {
 		data() {
 			return {
@@ -115,20 +116,69 @@
 				detail: null, // 商品信息
 				specification: null, // 规格
 				quantity: null ,// 数量
-				imgUrl: ''
+				imgUrl: '', // 商品图片
+				id: '',  // 商品id
+				postScript: '' ,// 用户的备注
+				address_id: 0, // 收货地址的索引
+				conpon: 0, // 优惠券的索引
+				token: '' // 用户token
 			};
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop;
+		},
+		onLoad({detail,imgUrl}) {
+			this.detail = JSON.parse(detail).detail;
+			this.quantity = JSON.parse(detail).quantity;
+			this.specification = JSON.parse(detail).specification;
+			this.imgUrl = imgUrl;
+			this.id = JSON.parse(detail).detail.id;
+			console.log(this.id)
+		},
+		created() {
+			this.getAddress()
+		},
+		onShow() {
+			// 获取从地址页面获取的地址信息
+			uni.getStorage({
+				key: 'addressItem',
+				success: res => {
+					this.address = JSON.parse(res.data);
+				}
+			})
+			// 获取从地址页面获取的地址索引位
+			uni.getStorage({
+				key: 'addressIndex',
+				success: res => {
+					this.address_id = res.data;
+				}
+			})
+			// 获取用户token
+			uni.getStorage({
+				key: 'token',
+				success: res => {
+					this.token = res.data;
+				}
+			})
 		},
 		methods: {
 			/**
 			 * 提交订单
 			 */
 			onSubmit() {
-				// uni.redirectTo({
-				// 	url: '/pages/CashierDesk/CashierDesk',
-				// })
+				uni.redirectTo({
+					url: '../CashierDesk/CashierDesk',
+				})
+				addOrder({
+					goodsid: this.id,
+					num: this.quantity,
+					postscript: this.postScript,
+					address_id: this.address_id,
+					conpon: this.conpon,
+					parameter_id: this.specification
+				}, this.token).then(res=>{
+					console.log(res[0][1].data.data)
+				}).catch(err => err)
 			},
 			/**
 			 * 跳转点击
@@ -155,15 +205,6 @@
 				});
 			}
 		},
-		onLoad({detail,imgUrl}) {
-			this.detail = JSON.parse(detail).id;
-			this.quantity = JSON.parse(detail).quantity;
-			this.specification = JSON.parse(detail).specification;
-			this.imgUrl = imgUrl;
-		},
-		created() {
-			this.getAddress()
-		}
 	}
 </script>
 

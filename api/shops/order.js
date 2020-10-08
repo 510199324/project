@@ -1,9 +1,10 @@
 import {request} from '../../utlis/request.js';
 
 // 新增订单
-export function addOrder(data) {
+export function addOrder(data,token) {
 	return request('/add_indent',data,'POST',{
-		"Content-type": "application/x-www-form-urlencoded"
+		"Content-type": "application/x-www-form-urlencoded",
+		'sessiontoken': token
 	})
 }
 

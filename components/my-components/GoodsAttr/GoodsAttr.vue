@@ -3,7 +3,7 @@
 	  <view class="cu-dialog">
 			<view class="goods-data">
 				<view class="thumb">
-					<image :src="detail.content[0]" mode=""></image>
+					<image :src="detail.content[AttrIndex]" mode=""></image>
 				</view>
 				<view class="item">
 					<view class="title">
@@ -17,32 +17,34 @@
 			</view>
 			<view class="attr-size">
 				<view class="attr-list">
-					<view v-if="detail.title == '颜色'">
-						<view class="title">
-							<text>颜色</text>
-						</view>
-						<view class="size-list">
-							<view class="list" v-for="(value,idx) in detail.name" :key="idx" @tap="attrItem(value, idx)">
-								<text>{{value}}</text>
+					<template v-if="detail == '' ? false : true">
+						<view v-if="detail.title == '颜色'">
+							<view class="title">
+								<text>颜色</text>
+							</view>
+							<view class="size-list">
+								<view class="list" v-for="(value,idx) in detail.name" :key="idx" @tap="attrItem(value, idx)" :class="{action: AttrIndex == idx}">
+									<text>{{value}}</text>
+								</view>
 							</view>
 						</view>
-					</view>
-					<view v-if="detail.title == '尺寸'">
-						<view class="title">
-							<text>尺寸</text>
-						</view>
-						<view class="size-list">
-							<view class="list" v-for="(value,idx) in detail.name" :key="idx" @tap="attrItem(value, idx)">
-								<text>{{value}}</text>
+						<view v-if="detail.title == '尺寸'">
+							<view class="title">
+								<text>尺寸</text>
+							</view>
+							<view class="size-list">
+								<view class="list" v-for="(value,idx) in detail.name" :key="idx" @tap="attrItem(value, idx)" :class="{action: AttrIndex == idx}">
+									<text>{{value}}</text>
+								</view>
 							</view>
 						</view>
-					</view>
+					</template>
 				</view>
 				<view class="attr-number">
 					<view class="tit">购买数量</view>
 					<view class="numberOne">
 						<text class="icon" @tap="countDn" style="padding-left:20rpx;padding-right:20rpx;">-</text>
-						<text class="count">{{count}}</text>
+						<text class="count">{{ count }}</text>
 						<text class="icon" @tap="countUp">+</text>
 					</view>
 				</view>
@@ -59,7 +61,7 @@
 		data() {
 			return {
 				isShow: false,
-				AttrIndex: 0,
+				AttrIndex: null,
 				SizeIndex: 0,
 				BuyType: 0,
 				count: 1
@@ -101,6 +103,8 @@
 			},
 			confirm() {
 				this.$emit('confirm')
+				this.count = 1;
+				this.AttrIndex = null;
 			}
 		}
 	}

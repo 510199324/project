@@ -22,7 +22,6 @@
 					<text>所在地区</text>
 				</view>
 				<picker mode="region" :range="years" @change="yearChange">
-				<!-- 	<view style="color:#555;font-size:26rpx;" v-show="addressObj.province">{{ addressObj.province + addressObj.city + addressObj.area }}</view> -->
 					<view style="color:#555;font-size:26rpx;">{{ timetext }}</view>
 				</picker>
 			</view>
@@ -53,7 +52,7 @@
 	export default {
 		data() {
 			return {
-				addressType: '2', // 判断是否是编辑地址或新增地址
+				addressType: '', // 判断是否是编辑地址或新增地址
 				addIndex: null, // 地址列表的index
 				timetext: '请选择地区', 
 				province: '', // 省
@@ -148,10 +147,12 @@
 			}
 		},
 		onLoad(params) {
-			this.addressType = params.type||'2';
+			if (params.address) {
+				this.addressObj = JSON.parse(params.address);
+				this.timetext = this.addressObj.province + '/' + this.addressObj.city + '/' + this.addressObj.area;
+			}
+			this.addressType = params.type || '2';
 			this.addIndex = params.index;
-			this.addressObj = JSON.parse(params.address);
-			this.timetext = this.addressObj.province + '/' + this.addressObj.city + '/' + this.addressObj.area;
 			uni.setNavigationBarTitle({
 				title: this.addressType === '1' ? '编辑收货地址':'新建收货地址'
 			})

@@ -22,7 +22,7 @@
 			</view>
 			<view class="o-list">
 				<view class="item center" hover-class="hover-gray" :hover-stay-time="50" @tap="order(1)">
-					<text class="mix-icon icon-daifukuan"></text>
+					<text class="mix-icon icon-daifukuan"></text> 
 					<text>待付款</text>
 					<text v-if="orderCount.c0 > 0" class="number">{{ orderCount.c0 }}</text>
 				</view>
@@ -55,10 +55,10 @@
 					<image v-for="(item, index) in historyList" :key="index" :src="item.thumb" mode="aspectFill"></image>
 				</view>
 			</scroll-view>
-			<mix-list-cell :src="'../../static/imags/address.png'" iconColor="#5fcda2" title="地址管理" @tap="address"></mix-list-cell>
-			<mix-list-cell :src="'../../static/imags/Discount.png'" title="优惠券" @tap="coupon()"></mix-list-cell>
-			<mix-list-cell :src="'../../static/imags/integral.png'" title="积分" @tap="integral"></mix-list-cell>
-			<mix-list-cell :src="'../../static/imags/Favorites.png'" iconColor="#54b4ef" title="我的收藏" @tap="favorites()"></mix-list-cell>
+			<mix-list-cell :src="'/static/imags/address.png'" iconColor="#5fcda2" title="地址管理" @tap="address"></mix-list-cell>
+			<mix-list-cell :src="'/static/imags/Discount.png'" title="优惠券" @tap="coupon()"></mix-list-cell>
+			<mix-list-cell :src="'/static/imags/integral.png'" title="积分" @tap="integral"></mix-list-cell>
+			<mix-list-cell :src="'/static/imags/Favorites.png'" iconColor="#54b4ef" title="我的收藏" @tap="favorites()"></mix-list-cell>
 		</view>
 	</view>  
 </template>

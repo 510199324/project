@@ -1,4 +1,4 @@
-import {request} from '../../utlis/request.js';
+import {request} from '@/utlis/request.js';
 
 // 获取用户信息
 /**
@@ -155,5 +155,52 @@ export function modifyPass(data) {
 export function forgetPassWord(data) {
 	return request('/user/forgetpass',data,'POST',{
 		'Content-type': 'application/x-www-form-urlencoded'
+	})
+}
+
+// 获取token是否过
+/**
+ * @export
+ * @param {object} data {
+ * 		token:string  用户token
+ * }
+ * @return {Promise} 
+ */
+export function getTokenCode(data) {
+	return request('/token',{},'POST',{
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': data
+	})
+}
+
+// 增加购物车的商品
+export function addShop(data, token) {
+	return request('/user/add_shopcar',data,'POST',{
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': token
+	})
+}
+
+// 获取全部购物车裂变
+export function getShop(data) {
+	return request('/user/all_shopcar',{},'POST',{
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': data
+	})
+}
+
+// 更新购物车列表
+export function upDateShop(data,token) {
+	return request('/user/update_shopcar',data,'POST',{
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': token
+	})
+}
+
+// 删除购物车商品
+export function deleteShop(data, token) {
+	return request('/user/delete_shopcar',data,'POST',{
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': token
 	})
 }

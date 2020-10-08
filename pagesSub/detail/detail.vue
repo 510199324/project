@@ -1,5 +1,6 @@
 <template>
 	<view class="detail">
+		<!--  -->
 		<view class="detailHome">
 			<view class="swiper">
 				<swiper :indicator-dots="false" :autoplay="false" :interval="3000" :duration="400" class="swiperCom" @change="change">
@@ -27,6 +28,7 @@
 				<goodList :goodShopList="goodShopList" :src="'../../pagesSub/detail/detail?type_one='" />
 			</view>
 		</view>
+		<!--  -->
 		<uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup"  @click="onClick" @buttonClick="buttonClick" class="goods"/>
 		<view class="backFather" v-show="hide">
 			<view class="back" @tap="hideAlert"></view>
@@ -37,9 +39,10 @@
 
 <script>
 	import uniGoodsNav from '@/components/uni-goods-nav/uni-goods-nav.vue';
-	import goodList from '../../components/my-components/goodList/goodList.vue';
-	import { getGood, getTypeOne } from '../../api/shops/shops.js';
-	import goodAttr from '../../components/my-components/GoodsAttr/GoodsAttr.vue';
+	import goodList from '@/components/my-components/goodList/goodList.vue';
+	import { getGood, getTypeOne } from '@/api/shops/shops.js';
+	import goodAttr from '@/components/my-components/GoodsAttr/GoodsAttr.vue';
+	import { addShop } from '@/api/users/user.js';
 	export default {
 		components: {
 			uniGoodsNav,
@@ -78,11 +81,11 @@
 				specification: '', // 尺寸或者颜色
 				quantity: 1, // 购买或者购物车数量
 				confirmText: '', // 点击购物车或者立即购买的提示
-				imgIndex: 0
+				imgIndex: 0,
+				token: '' // 用户token
 		    }
 		},
 		onLoad({id, type_one}) {
-			console.log(id)
 			let arr = [getGood({
 				id
 			}),getTypeOne({
@@ -91,8 +94,17 @@
 			Promise.all(arr).then(res=>{
 				this.detailList = res[0][1].data.data[0];
 				this.price = this.detailList.price;
-				this.detail = JSON.parse(this.detailList.parameter);
+				if (this.detailList.parameter == '') {
+					this.detail = '';
+				} else if (Array.isArray(JSON.parse(this.detailList.parameter))) {
+					this.detail = JSON.parse(this.detailList.parameter)[0];
+				} else if (!Array.isArray(JSON.parse(this.detailList.parameter))) {
+					this.detail = JSON.parse(this.detailList.parameter);
+				}
 				this.goodShopList = res[1][1].data.data;
+				this.$nextTick(()=>{
+					uni.hideLoading()
+				})
 			}).catch(err=>{
 				console.log(err)
 			});
@@ -124,6 +136,34 @@
 						setTimeout(()=>{
 							uni.hideToast();
 						},1500)
+					} else {
+						let that = this;
+						uni.getStorage({
+							key: 'token',
+							success(res) {
+								addShop({
+									id: that.detailList.id,
+									num: that.quantity,
+									parameter_index: that.imgIndex,
+									parameter: that.detailList.parameter,
+									price: that.detailList.price,
+									title: that.detailList.title
+								},res.data).then(res => {
+									console.log(res)
+									if (res[1].data.code == 204) {
+										uni.showToast({
+											title: '添加成功'
+										})
+										that.hide = false;
+										setTimeout(() => {
+											uni.hideToast();
+										}, 1500)
+									}
+								}).catch(err => {
+									console.log(err);
+								})
+							}
+						})
 					}
 				}
 				if (this.confirmText == '立即购买') {
@@ -136,13 +176,14 @@
 							uni.hideToast();
 						},1500)
 					} else {
-						uni.navigateTo({
+						uni.redirectTo({
 							url: '../ConfirmOrder/ConfirmOrder?detail='+JSON.stringify({
 								specification: this.specification,
 								quantity: this.quantity,
-								id: {
+								detail: {
 									title: this.detailList.title,
 									price: this.detailList.price,
+									id: this.detailList.id
 								}
 							}) + '&imgUrl=' + JSON.parse(this.detailList.parameter).content[this.imgIndex]
 						})
@@ -162,7 +203,10 @@
 				this.hide = false;
 			}
 		},
-		created() {
+		onShow() {
+			uni.showLoading({
+				mask: true
+			})
 		}
 	}
 </script>

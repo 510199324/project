@@ -2,7 +2,7 @@
 	<view class="page">
 		<!-- 地址列表 -->
 		<view class="address-list">
-			<view class="list" v-for="(item,index) in addressList" :key="index" v-show="addressList.length > 0" @tap="getAddress(item)">
+			<view class="list" v-for="(item,index) in addressList" :key="index" v-show="addressList.length > 0" @tap="getAddress(item, index)">
 				<view class="name-phone">
 					<view class="name">
 						<text class="one-omit">{{item.recipients}}</text>
@@ -13,7 +13,7 @@
 				</view>
 				<view class="address-edit">
 					<view class="address">
-						<text>{{item.province + item.city + item.area}}</text>
+						<text>{{item.province + item.city + item.area + item.address}}</text>
 					</view>
 					<view class="edit" @tap.stop="onAddressEdit(index,item)">
 						<image src="../../static/imags/modify.png" class="modify"></image>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-	import { getAddress } from '../../api/users/address.js';
+	import { getAddress } from '@/api/users/address.js';
 	export default {
 		data() {
 			return {
@@ -62,10 +62,18 @@
 					url: `../AddressEdit/AddressEdit?type=2`
 				})
 			},
-			getAddress(item) {
+			getAddress(item, index) {
 				if (this.id === '1') {
-					uni.redirectTo({
-						url: '../ConfirmOrder/ConfirmOrder?item=' + JSON.stringify(item)
+					uni.navigateBack({
+						delta: 1
+					})
+					uni.setStorage({
+						key: 'addressItem',
+						data: JSON.stringify(item)
+					})
+					uni.setStorage({
+						key: 'addressIndex',
+						data: JSON.stringify(index)
 					})
 				} else {
 					return false;
@@ -82,7 +90,6 @@
 				success(res) {
 					getAddress(res.data).then((res)=>{
 						that.addressList = res[1].data.data;
-						console.log(res[1].data.data)
 					})
 				}
 			})

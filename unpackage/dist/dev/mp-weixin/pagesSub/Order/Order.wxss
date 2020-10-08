@@ -35,9 +35,9 @@
 	color: #2ca2ed;
 	border-bottom: 1px solid #2ca2ed;
 }
-.tab-header .active{
-	color:#f40;
-	border-bottom:6rpx solid #f40;
+.tab-header .active {
+	color: #f40;
+	border-bottom: 6rpx solid #f40;
 }
 
 @charset "UTF-8";

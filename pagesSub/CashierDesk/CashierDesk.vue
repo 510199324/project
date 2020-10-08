@@ -67,6 +67,26 @@
 		onLoad(){
 			this.CountDownData();
 		},
+		onBackPress() {  
+			if(this.showMask) {  
+				this.showMask = false;  
+				return true;  
+			}else{  
+				uni.showModal({  
+					title: '提示',  
+					content: '是否退出uni-app？',  
+					success: function(res) {  
+						if (res.confirm) {  
+							// 退出当前应用，改方法只在App中生效  
+							// plus.runtime.quit();  
+						} else if (res.cancel) {  
+							console.log('用户点击取消');  
+						}
+					}
+				});
+				return true  
+			}
+		},
 		methods:{
 			/**
 			 * 支付方式切换点击

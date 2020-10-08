@@ -1,10 +1,10 @@
 <template>
 	<view class="home">
 		<view class="search">
-			<uni-search-bar radius="30" :margin="'0rpx auto'" :width="'80%'"/>
+			<uni-search-bar radius="30" :margin="'0rpx auto'" :width="'80%'" />
 		</view>
 		<view class="swiper">
-			<mySwiper :imgs="imgs"/>
+			<mySwiper :imgs="imgs" />
 		</view>
 		<view class="welfare flex-around">
 			<view class="SevenDays flex">
@@ -21,19 +21,21 @@
 			</view>
 		</view>
 		<view class="">
-			<classify-list :src="'../../pagesSub/classify/classify?id='" :classifyImgs="classifyImgs" :classifyTitle="classifyTitle"></classify-list>
+			<classify-list :src="'../../pagesSub/classify/classify?type_one='" :classifyImgs="classifyImgs" :classifyTitle="classifyTitle"></classify-list>
 		</view>
 		<view class="good-List">
-			<goodList :goodShopList="goodShopList" :src="'../../pagesSub/detail/detail?type_one='"/>
+			<goodList :goodShopList="goodShopList" :src="'../../pagesSub/detail/detail?type_one='" />
 		</view>
 	</view>
 </template>
 
 <script>
-	import mySwiper from '../../components/my-components/swiper/my-swiper.vue';
-	import {getGood} from '../../api/shops/shops.js';
-	import goodList from '../../components/my-components/goodList/goodList.vue';
-	import classifyList from '../../components/my-components/detailList/detailList.vue';
+	import mySwiper from '@/components/my-components/swiper/my-swiper.vue';
+	import {
+		getGood
+	} from '@/api/shops/shops.js';
+	import goodList from '@/components/my-components/goodList/goodList.vue';
+	import classifyList from '@/components/my-components/detailList/detailList.vue';
 	export default {
 		name: 'Home',
 		components: {
@@ -44,72 +46,85 @@
 		data() {
 			return {
 				imgs: [ // 轮播图图片列表
-					'/static/swiperImg/lunbo1.jpg',
-					'/static/swiperImg/lunbo2.jpg',
-					'/static/swiperImg/lunbo3.jpg'
+					'https://www.sngblog.cn:7147/lunbo1.jpg',
+					'https://www.sngblog.cn:7147/lunbo2.jpg',
+					'https://www.sngblog.cn:7147/lunbo3.jpg',
+					'https://www.sngblog.cn:7147/indexbottom.jpg'
 				],
 				goodShopList: [], // 商品列表
 				classifyImgs: [ // 分类图片列表
-					'/static/imags/bathroom.png',
-					'/static/imags/bed.jpg',
-					'/static/imags/Lamps.jpg',
-					'/static/imags/Locker.jpg',
-					'/static/imags/sofa.jpg',
-					'/static/imags/TablesAndChairs.jpg',
-					'/static/imags/cupboard.jpg',
-					'/static/imags/Fabric.jpg'
+					'https://www.sngblog.cn:7147/bathroom.png',
+					'https://www.sngblog.cn:7147/bed.jpg',
+					'https://www.sngblog.cn:7147/Lamps.jpg',
+					'https://www.sngblog.cn:7147/Locker.jpg',
+					'https://www.sngblog.cn:7147/sofa.jpg',
+					'https://www.sngblog.cn:7147/TablesAndChairs.jpg',
+					'https://www.sngblog.cn:7147/cupboard.jpg',
+					'https://www.sngblog.cn:7147/Fabric.jpg'
 				],
-				classifyTitle: ['浴室', '床', '灯', '储物柜', '沙发', '桌椅', '橱柜', '布艺']  // 分类名称
+				classifyTitle: ['浴室', '床', '灯', '储物柜', '沙发', '桌椅', '厨房橱柜', '布艺'] // 分类名称
 			}
 		},
 		methods: {
 			getgoodList() {
 				let arr = [getGood()];
-				Promise.all(arr).then((res)=>{
-					for (let i = 0; i < 30; i ++) {
+				Promise.all(arr).then((res) => {
+					for (let i = 0; i < 30; i++) {
 						this.goodShopList.push(res[0][1].data.data[i])
 					}
-				}).catch((err)=>{
+					this.$nextTick(()=>{
+						uni.hideLoading()
+					})
+				}).catch((err) => {
 					console.log(err)
 				})
 			}
 		},
 		created() {
 			this.getgoodList();
+			uni.showLoading({
+				mask: true
+			})
 		}
 	}
 </script>
 
 <style>
-	.home{
-		background:#f8f8f8;
+	.home {
+		background: #f8f8f8;
 	}
-	.search{
-		position:fixed;
-		top:0rpx;
-		left:0rpx;
-		z-index:20;
-		width:100%;
-		background:#fff;
+
+	.search {
+		position: fixed;
+		top: 0rpx;
+		left: 0rpx;
+		z-index: 20;
+		width: 100%;
+		background: #fff;
 	}
-	.swiper{
-		padding-top:80rpx;
+
+	.swiper {
+		padding-top: 80rpx;
 	}
-	.welfare{
-		margin:20rpx 5rpx;
+
+	.welfare {
+		margin: 20rpx 5rpx;
 	}
-	.welfare image{
-		width:40rpx;
-		height:40rpx;
-		vertical-align:middle;
+
+	.welfare image {
+		width: 40rpx;
+		height: 40rpx;
+		vertical-align: middle;
 	}
-	.welfare>view{
-		margin-left:15rpx;
+
+	.welfare>view {
+		margin-left: 15rpx;
 	}
-	.welfare text{
-		font-size:22rpx;
-		color:#999;
-		font-weight:600;
-		line-height:30rpx;
+
+	.welfare text {
+		font-size: 22rpx;
+		color: #999;
+		font-weight: 600;
+		line-height: 30rpx;
 	}
 </style>
