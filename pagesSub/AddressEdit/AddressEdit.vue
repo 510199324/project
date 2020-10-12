@@ -62,23 +62,28 @@
 				recipients: '', // 收件人
 				tel: '', // 手机号
 				token: '', //用户token
-				addressObj: null
+				addressObj: {}
 			}
 		},
 		methods: {
+			// 详情地址的
 			addressHandel(e) {
 				this.address = e.target.value;
 			},
+			// 手机号
 			telHandel(e) {
 				this.tel = e.target.value;
 			},
+			// 收货人姓名
 			recipientsHandel(e) {
 				this.recipients = e.target.value;
 			},
+			// 新建地址或者编辑地址
 			save() {
+				// this.addressType == 1 时是编辑地址
 				if (this.addressType === '1') {
 					reviseAddress({
-						province: this.province || this.addressObj.prototype,
+						province: this.province || this.addressObj.province,
 						city: this.city || this.addressObj.city,
 						area: this.area || this.addressObj.area,
 						address: this.address || this.addressObj.address,
@@ -90,12 +95,11 @@
 						let { data } = resData;
 						if (data.code == 204) {
 							this.Toast('修改成功')
-							uni.redirectTo({
-								url: '../address/address'
-							})
+							uni.navigateBack();
 						}
 					})
 				}
+				// this.addressType == 2 时是新增地址
 				if (this.addressType === '2') {
 					addAddress({
 						province: this.province,
@@ -109,19 +113,19 @@
 						let { data } = resData;
 						if (data.code == 204) {
 							this.Toast('添加成功')
-							uni.redirectTo({
-								url: '../address/address'
-							})
+							uni.navigateBack();
 						}
 					})
 				}
 			},
+			// 获取地区
 			yearChange (e){
 				this.timetext = e.detail.value.join('/');
 				this.province = e.detail.value[0];
 				this.city = e.detail.value[1];
 				this.area = e.detail.value[2];
 			},
+			// 删除地址
 			deleteAddress() {
 				deleteAddress({
 					index: this.addIndex
@@ -130,12 +134,11 @@
 					let { data } = resData;
 					if (data.code == 204) {
 						this.Toast('删除成功');
-						uni.redirectTo({
-							url: '../address/address'
-						})
+						uni.navigateBack();
 					}
 				})
 			},
+			// 对弹框的封装
 			Toast(title, icon) {
 				uni.showToast({
 					title: title,

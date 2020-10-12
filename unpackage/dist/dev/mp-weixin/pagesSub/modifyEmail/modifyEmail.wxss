@@ -1,0 +1,59 @@
+
+.protocol{
+	margin-right:10rpx;
+}
+.logoImg{
+	height:100rpx;
+	margin:30rpx auto;
+	display:block;
+	width:70%;
+}
+.maliboxInput{
+	width:75%;
+	height:100rpx;
+	border:none;
+	font-size:32rpx;
+	border-bottom:1px solid #EBEEF7;
+}
+.error{
+	color:#f00;
+	font-size:28rpx;
+	width:75%;
+	margin-top:20rpx;
+	display:block;
+}
+.send{
+	width:100%;
+}
+.sendEali{
+	width:75%;
+	height:80rpx;
+	text-align:center;
+	-webkit-border-radius:10rpx;
+	        border-radius:10rpx;
+	color:#999;
+	background:#A6DBFB;
+	margin:20rpx auto;
+}
+.mailbox>view{
+	margin-top:20rpx;
+	margin-bottom:20rpx;
+}
+.code{
+	width:75%;
+}
+.codeInput{
+	width:40%;
+}
+.getCode,
+.Countdown{
+	height:100rpx;
+	width:40%;
+	font-size:28rpx;
+	text-align:center;
+	line-height:100rpx;
+	border:1px solid #EBEEF7;
+	-webkit-border-radius:20rpx;
+	        border-radius:20rpx;
+}
+

@@ -58,9 +58,10 @@ export function register(data) {
  * }
  * @return {Promise} 
  */
-export function modifyUser(data) {
-	return request('/user/modified',data,'POST',{
-		'Content-type': 'application/x-www-form-urlencoded'
+export function modifyUser(data, token) {
+	return request('/user/updateprofile',data,'POST',{
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': token
 	})
 }
 
@@ -120,9 +121,10 @@ export function getUid(data) {
  * }
  * @return {Promise} 
  */
-export function modifyEmail(data) {
+export function modifyEmail(data,token) {
 	return request('/user/forgetemail',data,'POST',{
-		'Content-type': 'application/x-www-form-urlencoded'
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': token
 	})
 }
 
@@ -136,9 +138,10 @@ export function modifyEmail(data) {
  * }
  * @return {Promise} 
  */
-export function modifyPass(data) {
+export function modifyPass(data,token) {
 	return request('/user/forgetpass',data,'POST',{
-		'Content-type': 'application/x-www-form-urlencoded'
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': token
 	})
 }
 
@@ -203,4 +206,47 @@ export function deleteShop(data, token) {
 		'Content-type': 'application/x-www-form-urlencoded',
 		'sessiontoken': token
 	})
+}
+
+// 收藏商品
+export function favorites(data, token) {
+	return request('/user/add_collect',data,'POST',{
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': token
+	})
+}
+
+// 取消收藏
+export function deleteFavorites(data, token) {
+	return request('/user/delete_collect',data,'POST',{
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': token
+	})
+}
+
+// 获取全部收藏夹
+export function favoritesAll(token) {
+	return request('/user/all_collect',{},'POST',{
+		'Content-type': 'application/x-www-form-urlencoded',
+		'sessiontoken': token
+	})
+}
+
+// 查询优惠券
+export function couponAll(token) {
+	return request('/user/all_coupon',{},'GET',{
+		'sessiontoken': token
+	})
+}
+
+// 兑换优惠券
+export function exchange(data,token) {
+	return request('/user/exchange',data,'POST',{
+		'sessiontoken': token
+	})
+}
+
+// 获取可以兑换的优惠券
+export function exchangeCoupon() {
+	return request('/all_system_coupon',{},'GET')
 }

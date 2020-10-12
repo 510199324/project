@@ -10,23 +10,21 @@
 <script>
 	export default {
 		props: {
+			// type—_one 的文本
 			classifyTitle: {
 				type: Array,
 				default: []
 			},
+			// type_one 的图片
 			classifyImgs: {
 				type: Array,
 				default: []
 			},
+			// 路径
 			src: {
 				type: String,
 				default: ''
 			}
-		},
-		data() {
-			return {
-				
-			} 
 		}
 	}
 </script>

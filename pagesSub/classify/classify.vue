@@ -31,7 +31,7 @@
 			</view>
 			<view class="classify-two-three">
 				<scroll-view scroll-y class="scroll" @scroll="scroll($event)" :scroll-top="scrollTop">
-					<view class="classify-two" v-for="(item,index) in classifyList" :key="index">
+					<view class="classify-two" v-for="(item,index) in classifyList" :key="index" @tap="detailMian(item.id, item.type_one)">
 						<view class="two-name">
 							<view class="name">{{item.title}}</view>
 						</view>
@@ -112,6 +112,12 @@
 			})
 		},
 		methods:{
+			// 点击跳转详情
+			detailMian(id, type_one) {
+				uni.navigateTo({
+					url: '../detail/detail?type_one=' + type_one + '&id=' + id 
+				})
+			},
 			// 滚动事件
 			scroll(e) {
 				for (let i = 0; i < this.titleAll.length; i ++) {

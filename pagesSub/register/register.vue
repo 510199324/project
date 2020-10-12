@@ -155,7 +155,7 @@
 						}
 					})
 					setTimeout(()=>{
-						this.flag = false;
+						this.flag = true;
 					},5000);
 				}
 			},

@@ -20,10 +20,12 @@
 <script>
 	export default {
 		props: {
+			// 商品列表
 			goodShopList: {
 				type: Array,
 				default: []
 			},
+			// 地址
 			src: {
 				type: String,
 				default: ''

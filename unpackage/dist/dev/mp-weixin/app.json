@@ -2,13 +2,14 @@
   "pages": [
     "pages/home/home",
     "pages/shopCar/shopCar",
-    "pages/find/find",
     "pages/personil/personil"
   ],
   "subPackages": [
     {
       "root": "pagesSub",
       "pages": [
+        "modifyEmail/modifyEmail",
+        "changePassword/changePassword",
         "classify/classify",
         "detail/detail",
         "login/login",
@@ -20,7 +21,6 @@
         "privacy/privacy",
         "protocol/protocol",
         "IntegralDetails/IntegralDetails",
-        "ExchangeRecord/ExchangeRecord",
         "orderDetails/orderDetails",
         "CashierDesk/CashierDesk",
         "forgetPassword/forgetPassword",
@@ -48,12 +48,6 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/find/find",
-        "iconPath": "static/imags/CFind.png",
-        "selectedIconPath": "static/imags/DFind.png",
-        "text": "发现"
-      },
-      {
         "pagePath": "pages/shopCar/shopCar",
         "iconPath": "static/imags/cshop.png",
         "selectedIconPath": "static/imags/dshop.png",
@@ -68,5 +62,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap23.json"
+  "sitemapLocation": "sitemap25.json"
 }

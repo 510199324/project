@@ -24,22 +24,22 @@
 				<text>商品信息</text>
 			</view>
 			<view class="goods-list">
-				<view class="list">
+				<view class="list" v-for="(item, index) in goodList" :key="index">
 					<view class="thumb">
-						<image :src="imgUrl" mode=""></image>
+						<image :src="JSON.parse(item.parameter).content[specificationArr[index]]" mode=""></image>
 					</view>
 					<view class="item">
 						<view class="title">
-							<text class="name one-omit">{{detail.title}}</text>
-							<text class="attr">{{specification}}</text>
+							<text class="name one-omit">{{item.title}}</text>
+							<text class="attr">{{productParametersArr[index]}}</text>
 						</view>
 						<view class="price-number">
 							<view class="price">
 								<text class="min">￥</text>
-								<text class="max">{{detail.price}}</text>
+								<text class="max">{{item.price}}</text>
 							</view>
 							<view class="number">
-								<text>x {{quantity}}</text>
+								<text>x {{productsNumArr[index]}}</text>
 							</view>
 						</view>
 						<view class="tag">
@@ -83,20 +83,20 @@
 						<text>商品金额</text>
 					</view>
 					<view class="price">
-						<text>￥{{detail.price}}</text>
+						<text>￥{{priceAll}}</text>
 					</view>
 				</view>
 			</view>
 		</view>
 		<!-- 地址提示 -->
 		<view class="address-tips" :style="scrollTop >= 100 ? '':'display:none'">
-			<text>黑龙江哈尔滨市道里区爱建路1333号</text>
+			<text>{{address.province + address.city + address.area + address.address}}</text>
 		</view>
 		<!-- 底部合计提交 -->
 		<view class="footer-submit">
 			<view class="price">
 				<text class="min">￥</text>
-				<text class="max">{{detail.price}}</text>
+				<text class="max">{{priceAll}}</text>
 			</view>
 			<view class="submit" @click="onSubmit">
 				<text>提交订单</text>
@@ -108,32 +108,43 @@
 <script>
 	import { addOrder } from '@/api/shops/order.js';
 	import { getAddress } from '@/api/users/address.js';
+	import { getGood } from '@/api/shops/shops.js';
 	export default {
 		data() {
 			return {
 				scrollTop: 0,
 				address: null, // 地址
-				detail: null, // 商品信息
-				specification: null, // 规格
-				quantity: null ,// 数量
-				imgUrl: '', // 商品图片
-				id: '',  // 商品id
-				postScript: '' ,// 用户的备注
+				postScript: '',// 用户的备注
 				address_id: 0, // 收货地址的索引
 				conpon: 0, // 优惠券的索引
-				token: '' // 用户token
+				token: '' ,// 用户token
+				shopIdList: [], // 商品ID和收藏 数组
+				productsNumArr: [], // 商品数量的数组
+				productParametersArr: [], // 商品参数的数组
+				priceAll: '', // 总价格
+				goodList: [], // 商品列表
+				specificationArr: [], // 商品参数索引的数组
+				deleteShopList: [], // 生成订单后清空购物车的数组
 			};
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop;
 		},
-		onLoad({detail,imgUrl}) {
-			this.detail = JSON.parse(detail).detail;
-			this.quantity = JSON.parse(detail).quantity;
-			this.specification = JSON.parse(detail).specification;
-			this.imgUrl = imgUrl;
-			this.id = JSON.parse(detail).detail.id;
-			console.log(this.id)
+		onLoad({ detail }) {
+			let detailAll = JSON.parse(detail);
+			this.shopIdList = detailAll.shopIdList;
+			this.productsNumArr = detailAll.productsNumArr;
+			this.productParametersArr = detailAll.productParametersArr;
+			this.priceAll = detailAll.priceAll;
+			this.specificationArr = detailAll.specificationArr;
+			this.deleteShopList = detailAll.deleteShopList;
+			for (let i of this.shopIdList) {
+				getGood({
+					id: i
+				}).then(res => {
+					this.goodList.push(res[1].data.data[0])
+				})
+			}
 		},
 		created() {
 			this.getAddress()
@@ -166,18 +177,28 @@
 			 * 提交订单
 			 */
 			onSubmit() {
-				uni.redirectTo({
-					url: '../CashierDesk/CashierDesk',
-				})
 				addOrder({
-					goodsid: this.id,
-					num: this.quantity,
+					goodsid: JSON.stringify(this.shopIdList),
+					num: JSON.stringify(this.productsNumArr),
 					postscript: this.postScript,
-					address_id: this.address_id,
-					conpon: this.conpon,
-					parameter_id: this.specification
+					address: JSON.stringify(this.address),
+					coupon: JSON.stringify(null),
+					parameter: JSON.stringify(this.productParametersArr),
+					all_price: this.priceAll,
+					detail_id: JSON.stringify(this.deleteShopList)
 				}, this.token).then(res=>{
-					console.log(res[0][1].data.data)
+					if (res[1].data.code == 204) {
+						uni.redirectTo({
+							url: '../CashierDesk/CashierDesk?orderId='+res[1].data.data.indent_collection+'&priceAll='+this.priceAll,
+						})
+					} else {
+						uni.showToast({
+							title: '系统繁忙'
+						})
+						setTimeout(()=>{
+							uni.hideToast();
+						},1500)
+					}
 				}).catch(err => err)
 			},
 			/**

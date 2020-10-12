@@ -41,50 +41,6 @@
   background: -webkit-linear-gradient(#fe3b0f, #fc603a);
   background: linear-gradient(#fe3b0f, #fc603a);
 }
-.head-bg .head-user.data-v-6b0e6ff8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-          justify-content: space-between;
-  padding: 0 4%;
-  height: 100rpx;
-}
-.head-bg .head-user .user.data-v-6b0e6ff8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-}
-.head-bg .head-user .user image.data-v-6b0e6ff8 {
-  width: 70rpx;
-  height: 70rpx;
-  -webkit-border-radius: 100%;
-          border-radius: 100%;
-}
-.head-bg .head-user .user text.data-v-6b0e6ff8 {
-  font-size: 28rpx;
-  color: #FFFFFF;
-  margin-left: 20rpx;
-}
-.head-bg .head-user .exchange.data-v-6b0e6ff8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-}
-.head-bg .head-user .exchange text.data-v-6b0e6ff8 {
-  font-size: 28rpx;
-  color: #FFFFFF;
-}
 .head-bg .integral-balance.data-v-6b0e6ff8 {
   display: -webkit-box;
   display: -webkit-flex;

@@ -13,12 +13,6 @@
 			}
 		},
 		{
-			"path": "pages/find/find",
-			"style": {
-				"navigationBarTitleText": "发现"
-			}
-		},
-		{
 			"path": "pages/personil/personil",
 			"style": {
 				"navigationBarTitleText": "个人中心"
@@ -44,12 +38,6 @@
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/find/find",
-				"iconPath": "static/imags/CFind.png",
-				"selectedIconPath": "static/imags/DFind.png",
-				"text": "发现"
-			},
-			{
 				"pagePath": "pages/shopCar/shopCar",
 				"iconPath": "static/imags/cshop.png",
 				"selectedIconPath": "static/imags/dshop.png",
@@ -68,64 +56,128 @@
 			"root":"pagesSub",
 			"pages":[
 				{
-					"path": "classify/classify"
+					"path": "modifyEmail/modifyEmail",
+					"style": {
+						"navigationBarTitleText": "修改邮箱"
+					}
+				},
+				{
+					"path": "changePassword/changePassword",
+					"style": {
+						"navigationBarTitleText": "修改密码"
+					}
+					
+				},
+				{
+					"path": "classify/classify",
+					"style": {
+						"navigationBarTitleText": "分类"
+					}
 				},
 				{
 					"path": "detail/detail"
 				},
 				{
-					"path": "login/login"
+					"path": "login/login",
+					"style": {
+						"navigationBarTitleText": "登录"
+					}
 				},
 				{
-					"path": "register/register"
+					"path": "register/register",
+					"style": {
+						"navigationBarTitleText": "注册"
+					}
 				},
 				{
-					"path": "Order/Order"
+					"path": "Order/Order",
+					"style": {
+						"navigationBarTitleText": "我的订单"
+					}
 				},
 				{
-					"path": "address/address"
+					"path": "address/address",
+					"style": {
+						"navigationBarTitleText": "地址管理"
+					}
 				},
 				{
-					"path": "coupon/coupon"
+					"path": "coupon/coupon",
+					"style": {
+						"navigationBarTitleText": "优惠券"
+					}
 				},
 				{
-					"path": "Favorites/Favorites"
+					"path": "Favorites/Favorites",
+					"style": {
+						"navigationBarTitleText": "我的收藏"
+					}
 				},
 				{
-					"path": "privacy/privacy"
+					"path": "privacy/privacy",
+					"style": {
+						"navigationBarTitleText": "我的收藏"
+					}
 				},
 				{
-					"path": "protocol/protocol"
+					"path": "protocol/protocol",
+					"style": {
+						"navigationBarTitleText": "用户协议"
+					}
 				},
 				{
-					"path": "IntegralDetails/IntegralDetails"
+					"path": "IntegralDetails/IntegralDetails",
+					"style": {
+						"navigationBarTitleText": "积分详情"
+					}
 				},
 				{
-					"path": "ExchangeRecord/ExchangeRecord"
-				}, 
-				{
-					"path": "orderDetails/orderDetails"
+					"path": "orderDetails/orderDetails",
+					"style": {
+						"navigationBarTitleText": "订单详情"
+					}
 				},
 				{
-					"path": "CashierDesk/CashierDesk"
+					"path": "CashierDesk/CashierDesk",
+					"style": {
+						"navigationBarTitleText": "付款"
+					}
 				},
 				{
-					"path": "forgetPassword/forgetPassword"
+					"path": "forgetPassword/forgetPassword",
+					"style": {
+						"navigationBarTitleText": "忘记密码"
+					}
 				},
 				{
-					"path": "resetPass/resetPass"
+					"path": "resetPass/resetPass",
+					"style": {
+						"navigationBarTitleText": "重置密码"
+					}
 				},
 				{
-					"path": "userDetail/userDetail"
+					"path": "userDetail/userDetail",
+					"style": {
+						"navigationBarTitleText": "个人详情"
+					}
 				},
 				{
-					"path": "AddressEdit/AddressEdit"
+					"path": "AddressEdit/AddressEdit",
+					"style": {
+						"navigationBarTitleText": "地址详情"
+					}
 				},
 				{
-					"path": "setUser/setUser"
+					"path": "setUser/setUser",
+					"style": {
+						"navigationBarTitleText": "设置个人信息"
+					}
 				},
 				{
-					"path": "ConfirmOrder/ConfirmOrder"
+					"path": "ConfirmOrder/ConfirmOrder",
+					"style": {
+						"navigationBarTitleText": "确认支付"
+					}
 				}
 			]
 		}

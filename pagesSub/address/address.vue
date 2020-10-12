@@ -1,4 +1,4 @@
-[[]]<template>
+<template>
 	<view class="page">
 		<!-- 地址列表 -->
 		<view class="address-list">
@@ -62,6 +62,7 @@
 					url: `../AddressEdit/AddressEdit?type=2`
 				})
 			},
+			// 点击获取地址对象
 			getAddress(item, index) {
 				if (this.id === '1') {
 					uni.navigateBack({

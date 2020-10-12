@@ -3,7 +3,7 @@
 		<view class="top">
 			<image class="u-bg" src="../../static/bg/wallet.png"></image>
 			<view class="user-wrapper">
-				<image class="avatar" :src="userInfo.avatar || '/static/imags/default.png'"></image>
+				<image class="avatar" :src="userInfo.headpoto ? userInfo.headpoto : '/static/imags/default.png'"></image>
 				<view class="login-box" @tap="login" v-show="!userInfo.name">
 					<text>请登录</text>
 				</view>
@@ -35,11 +35,6 @@
 					<text class="mix-icon icon-yishouhuo"></text>
 					<text>待收货</text>
 					<text v-if="orderCount.c2 > 0" class="number">{{ orderCount.c2 }}</text>
-				</view>
-				<view class="item center" hover-class="hover-gray" :hover-stay-time="50" @tap="order(4)">
-					<text class="mix-icon icon-daipingjia"></text>
-					<text>待评价</text>
-					<text v-if="orderCount.c3 > 0" class="number">{{ orderCount.c3 }}</text>
 				</view>
 			</view>
 		</view>
@@ -75,7 +70,7 @@
 		data(){
 			return {
 				historyList: [],
-				userInfo: null, // 用户信息
+				userInfo: {}, // 用户信息
 				token: null // token
 			}
 		},
@@ -89,7 +84,7 @@
 						let resData = res[1].data;
 						if (resData.code === 401) {
 							uni.showToast({
-								title: '登录失效请重新登录',
+								title: '请登录',
 								icon: 'none'
 							})
 						} else if (resData.code === 204) {
@@ -100,70 +95,57 @@
 							that.userInfo = res[1].data.data;
 						}
 					})
+				},
+				fail() {
+					uni.showToast({
+						title: '请登录',
+						icon: 'none'
+					})
+					that.userInfo = {};
+					that.token = '';
 				}
 			})
 		},
 		methods: {
+			// 判断是否登录的函数
+			checkLogin(noLogin, login) {
+				if (this.token) {
+					uni.navigateTo({
+						url: noLogin
+					})
+				} else {
+					uni.navigateTo({
+						url: login
+					})
+				}
+			},
+			// 登录
 			login() {
 				uni.navigateTo({
 					url:'../../pagesSub/login/login'
 				})
 			},
+			// 订单
 			order(item) {
-				if (this.token) {
-					uni.navigateTo({
-						url:'../../pagesSub/Order/Order?status='+item
-					})
-				} else {
-					uni.navigateTo({
-						url: '../../pagesSub/login/login'
-					})
-				}
+				this.checkLogin('../../pagesSub/Order/Order?status='+item, '../../pagesSub/login/login');
 			},
+			// 地址
 			address() {
-				if (this.token) {
-					uni.navigateTo({
-						url: '../../pagesSub/address/address'
-					})
-				} else {
-					uni.navigateTo({
-						url: '../../pagesSub/login/login'
-					})
-				}
+				this.checkLogin('../../pagesSub/address/address', '../../pagesSub/login/login');
 			},
+			// 优惠券
 			coupon() {
-				if (this.token) {
-					uni.navigateTo({
-						url:'../../pagesSub/coupon/coupon'
-					})
-				} else {
-					uni.navigateTo({
-						url: '../../pagesSub/login/login'
-					})
-				}
+				this.checkLogin('../../pagesSub/coupon/coupon', '../../pagesSub/login/login');
 			},
+			// 收藏
 			favorites() {
-				if (this.token) {
-					uni.navigateTo({
-						url: '../../pagesSub/Favorites/Favorites'
-					})
-				} else {
-					uni.navigateTo({
-						url: '../../pagesSub/login/login'
-					})
-				}
+				this.checkLogin('../../pagesSub/Favorites/Favorites', '../../pagesSub/login/login');
 			},
+			// 积分
 			integral() {
-				if (this.token) {
-					uni.navigateTo({
-						url:'../../pagesSub/IntegralDetails/IntegralDetails'
-					})
-				} else {
-					uni.navigateTo({
-						url: '../../pagesSub/login/login'
-					})
-				}
+				this.checkLogin('../../pagesSub/IntegralDetails/IntegralDetails', '../../pagesSub/login/login');
 			},
+			// 用户详情
 			userDetail() {
 				uni.navigateTo({
 					url: '../../pagesSub/userDetail/userDetail'

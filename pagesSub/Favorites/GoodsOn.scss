@@ -1,3 +1,44 @@
+.head {
+	position: fixed;
+	left: 50%;
+	top: 0;
+	z-index: 1;
+	transform:translate(-50%,0%);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 92%;
+	height: 80rpx;
+	/* #ifdef APP-PLUS */
+	height: calc(100rpx + var(--status-bar-height));
+	padding-top: var(--status-bar-height);
+	/* #endif */
+	background-color: #FFFFFF;
+
+	.title {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		font-size: 30rpx;
+		color: #212121;
+	}
+
+	.edit {
+		position: absolute;
+		right: 20rpx;
+		top: 50%;
+		/* #ifdef APP-PLUS */
+		top: calc(50rpx + var(--status-bar-height));
+		/* #endif */
+		transform: translate(0, -50%);
+
+		text {
+			color: #212121;
+			font-size: 26rpx;
+		}
+	}
+}
 .page{
 	position: absolute;
 	left: 0;
@@ -90,19 +131,6 @@
 					font-size: 32rpx;
 					color: $base;
 					font-weight: bold;
-				}
-				.depreciate{
-					display: flex;
-					align-items: center;
-					text{
-						display: block;
-						padding: 4rpx 8rpx;
-						font-size: 24rpx;
-						color: $base;
-						border: 2rpx solid $base;
-						border-radius: 20rpx;
-						transform: scale(0.8);
-					}
 				}
 			}
 			.goods-btn{

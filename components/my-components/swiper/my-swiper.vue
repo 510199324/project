@@ -9,6 +9,7 @@
 <script>
 	export default {
 		props: {
+			// 轮播图的图片列表
 			imgs: {
 				type: Array,
 				default: []

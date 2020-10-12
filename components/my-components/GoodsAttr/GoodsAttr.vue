@@ -92,8 +92,8 @@
 				})
 			},
 			countDn() {
-				if (this.count == 0) {
-					this.count = 0;
+				if (this.count == 1) {
+					this.count = 1;
 				} else {
 					this.count --;
 					this.$emit('oncount',{

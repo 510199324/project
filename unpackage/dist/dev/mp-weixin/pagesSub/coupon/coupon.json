@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "navigationBarTitleText": "优惠券",
+  "usingComponents": {
+    "shop": "/components/my-components/shop/shop"
+  }
 }

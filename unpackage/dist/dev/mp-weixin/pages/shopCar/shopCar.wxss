@@ -389,6 +389,14 @@
 }
 
 
+.recommendF{
+	width:100%;
+}
+.recommendS{
+	width:416rpx;
+	height:40rpx;
+	margin:30rpx auto;
+}
 .text {
 	font-size: 40rpx;
 	font-weight: 700;

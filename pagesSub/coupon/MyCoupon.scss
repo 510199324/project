@@ -21,6 +21,7 @@
 	width: 100%;
 	height: 100rpx;
 	background-color: #ffffff;
+	justify-content:space-evenly;
 	.tab {
 		position: relative;
 		display: flex;
@@ -204,18 +205,6 @@
 				}
 			}
 			.coupon-info{
-				.info-title{
-					.tag{
-						text{
-							background-color: #c0c0c0;
-						}
-					}
-					.title{
-						text{
-							color: #c0c0c0;
-						}
-					}
-				}
 				.date-get{
 					.date{
 						text{
@@ -223,18 +212,6 @@
 						}
 					}
 				}
-			}
-		}
-		.describe{
-			display: flex;
-			align-items: center;
-			padding: 0 4%;
-			height: 60rpx;
-			background-color: #FFFFFF;
-			box-shadow: 0 -10rpx 10rpx #F5F5F5;
-			text{
-				color: #CCCCCC;
-				font-size: 24rpx;
 			}
 		}
 		.use-status {

@@ -4,12 +4,12 @@
 			<shop v-show="!flag">
 				<text slot="text-title">未登陆</text>
 				<text slot="text-two">登录成功后将显示购物车内商品</text>
-				<button type="primary" slot="button">去登陆</button>
+				<button type="primary" slot="button" @tap="goLogin">去登陆</button>
 			</shop>
-			<shop v-if="shopList.length == 0 ? true : false">
+			<shop v-if="shopList.length">
 				<text slot="text-title">购物车空空如也~</text>
 				<text slot="text-two">快去逛逛吧，挑选您喜爱的商品</text>
-				<button type="primary" slot="button">去逛逛</button>
+				<button type="primary" slot="button" @tap="goShop">去逛逛</button>
 			</shop>
 			<!-- 购物车列表 -->
 			<view class="shopList" v-if="shopList.length > 0">
@@ -23,73 +23,73 @@
 				</view>
 				<!-- 购物车列表 -->
 				<view class="cart-list">
-					<view class="list" v-for="(item, index) in shopList" :key="index">
-						<view class="check">
-							<checkbox-group @change="checkHandel($event, item, index)">
-								<label>
-									<checkbox :value="index" :checked="!item.id"/>
-								</label>
-							</checkbox-group>
-						</view>
-						<view class="goods">
-							<view class="thumb">
-								<image :src="JSON.parse(item.parameter).content[item.parameter_index]" mode=""></image>
+					<checkbox-group @change="checkHandel($event)">
+						<label class="list" v-for="(item, index) in shopList" :key="index">
+							<view class="check">
+								<checkbox :value="index" :checked="item.checked"/>
 							</view>
-							<view class="item">
-								<view class="title">
-									<text class="two-omit">{{item.title}}</text>
+							<view class="goods">
+								<view class="thumb">
+									<image :src="JSON.parse(item.parameter).content[item.parameter_index]" mode=""></image>
 								</view>
-								<view class="attribute">
-									<view class="attr" @tap="buttonClick(item, index)">
-										<text>{{JSON.parse(item.parameter).name[item.parameter_index]}}</text>
-										<text class="more"></text>
+								<view class="item">
+									<view class="title">
+										<text class="two-omit">{{item.title}}</text>
 									</view>
-								</view>
-								<view class="price-num">
-									<view class="price">
-										<text class="min">￥</text>
-										<text class="max">{{item.price}}</text>
+									<view class="attribute">
+										<view class="attr" @tap="buttonClick(item, index)">
+											<text>{{JSON.parse(item.parameter).name[item.parameter_index]}}</text>
+											<text class="more"></text>
+										</view>
 									</view>
-									<view class="num">
-										<view class="number">
-											<text>X {{item.num}}</text>
+									<view class="price-num">
+										<view class="price">
+											<text class="min">￥</text>
+											<text class="max">{{item.price}}</text>
+										</view>
+										<view class="num">
+											<view class="number">
+												<text>X {{item.num}}</text>
+											</view>
 										</view>
 									</view>
 								</view>
 							</view>
-						</view>
-					</view>
+						</label>
+					</checkbox-group>
 				</view>
 				<!-- 购物车失效商品列表 -->
 			</view>
 			<view class="recommend">
-				<text class="text">为你推荐</text>
+				<view class="recommendF">
+					<image src="/static/imags/wntj_title.png" mode="" class="recommendS"></image>
+				</view>
 				<view class="goods">
 					<goodList :goodShopList="goodShopList" />
 				</view>
 			</view>
 			<!-- 结算 -->
-			<view class="close-account" v-show="!flag">
+			<view class="close-account" v-if="shopList.length">
 				<view class="check-total">
 					<view class="check">
 						<checkbox-group @change="checkAll">
 							<label>
-								<checkbox :value="1" :checked="checkKey"/>
+								<checkbox value="all" :checked="checkKey"/>
 								<text class="all">全选</text>
 							</label>
 						</checkbox-group>
 					</view>
-					<view class="total"  v-show="!isEdit">
+					<view class="total"  v-if="!isEdit">
 						<text>合计：</text>
-						<text class="price">￥200.00</text>
+						<text class="price">￥{{priceAll}}</text>
 					</view>
 				</view>
 				<view class="account">
-					<view class="btn-calculate" v-if="!isEdit">
-						<text @tap="pay">去结算(1)</text>
+					<view class="btn-calculate" v-if="!isEdit" @tap="pay">
+						<text>去结算({{checkArr.length}})</text>
 					</view>
 					<view class="btn-del" v-else>
-						<text class="attention">移入收藏</text>
+						<text class="attention" @tap="moveFavorites">移入收藏</text>
 						<text class="del" @tap="deleteShopCar">删除</text>
 					</view>
 				</view>
@@ -109,7 +109,7 @@
 	import goodAttr from '@/components/my-components/GoodsAttr/GoodsAttr.vue';
 	import { getGood } from '@/api/shops/shops.js';
 	import { getCode } from '@/utlis/getToken.js';
-	import { deleteShop, upDateShop, getShop } from '@/api/users/user.js';
+	import { deleteShop, upDateShop, getShop, favorites } from '@/api/users/user.js';
 	export default {
 		components: {
 			goodList,
@@ -118,12 +118,13 @@
 		},
 		data() {
 			return {
+				// checkItem: false, // 单选的
 				checkKey: false, // 全选的
 				price: null, // 参数中的价格
 				hide: false,  // 控制添加购物车和购买的框显示和隐藏
 				detail: null, // 商品参数
 				isEdit: false, // 删除和付款的出现和隐藏
-				shopList: null, // 购物车列表
+				shopList: [], // 购物车列表
 				goodShopList: null, // 猜你喜欢商品列表
 				flag: true, // 判断是否登录
 				token: null, // 用户token
@@ -134,49 +135,101 @@
 				index: null, // 商品索引
 				paramsIndex: null, // 商品原参数索引
 				checkArr: [], // 选择的数组
+				priceAll: 0, // 商品的总价钱
+				shopIdList: [], // 商品ID和收藏 数组
+				newCheckKey: false, // 用来判断是否勾选的字段
+				productsNumArr: [], // 商品数量的数组
+				productParametersArr: [], // 商品参数的数组
+				deleteShopList: [], // 删除购物车数组
+				specificationArr: [], // 商品参数索引的数组
 			}
 		},
 		methods: {
+			// 登录状态的去逛逛
+			goShop() {
+				uni.switchTab({
+					url: '../home/home'
+				})
+			},
+			// 未登录状态的去登录
+			goLogin() {
+				console.log('去登陆')
+				uni.navigateTo({
+					url: '../../pagesSub/login/login'
+				})
+			},
+			// 收藏
+			moveFavorites() {
+				for (let i of this.checkArr) {
+					this.shopIdList.push(this.shopList[i].id)
+				}
+				for (let j of this.shopIdList) {
+					favorites({
+						product_id: j
+					}, this.token).then(res => {
+						if (res[1].data.code == 204) {
+							uni.showToast({
+								title: '移入收藏成功'
+							})
+							setTimeout(() => {
+								uni.hideToast()
+							}, 2000)
+						}
+					})
+				}
+			},
 			// 操作
 			poeration() {
 				this.isEdit = !this.isEdit;
 			},
 			// 支付
 			pay() {
-				console.log(this.checkArr)
+				for (let i of this.checkArr) {
+					this.deleteShopList.push(this.shopList[i].delete_id);
+					this.productsNumArr.push(this.shopList[i].num);
+					this.shopIdList.push(this.shopList[i].id);
+					this.specificationArr.push(this.shopList[i].parameter_index);
+					this.productParametersArr.push(JSON.parse(this.shopList[i].parameter).name[this.shopList[i].parameter_index]);
+				}
+				console.log(this.deleteShopList)
+				uni.navigateTo({
+					url: `../../pagesSub/ConfirmOrder/ConfirmOrder?detail=${JSON.stringify({
+						productsNumArr: this.productsNumArr,
+						productParametersArr: this.productParametersArr,
+						shopIdList: this.shopIdList,
+						priceAll: this.priceAll,
+						specificationArr: this.specificationArr,
+						deleteShopList: this.deleteShopList
+					})}`
+				})
 			},
 			// 全选
 			checkAll(e) {
 				let arr = e.detail.value;
-				// arr.length 为 0 时是未选中状态
 				if (arr.length == 0) {
 					this.checkKey = false;
+					this.priceAll = 0;
 					this.checkArr = [];
-					for (let i = 0; i < this.shopList.length; i ++) {
-						this.shopList[i].id = !this.shopList[i].id;
-					}
 				} else {
 					this.checkKey = true;
 					for (let i = 0; i < this.shopList.length; i ++) {
-						this.shopList[i].id = !this.shopList[i].id;
-						this.checkArr.push(i);
+						this.checkArr.push(i)
+					}
+				}
+				// 数组去重
+				for (let i = 0; i < this.checkArr.length; i ++) {
+					for (let j = i + 1; j < this.checkArr.length; j ++) {
+						if (this.checkArr[i] == this.checkArr[j]) {
+							this.checkArr.splice(j ,1);
+							j --;
+						}
 					}
 				}
 			},
 			// 选择商品或者删除商品
-			checkHandel(e, item, index) {
-				console.log(item);
-				console.log(e,index);
-				let arr = e.detail.value;
-				// arr.length 为 0 时是未选中状态
-				if (arr.length == 0) {
-					this.checkArr.splice(index, 1);
-				}
-				// arr.length 大于 0 时是未选中状态
-				if (arr.length > 0) {
-					this.checkArr.push(index);
-				}
-				if(this.checkArr.length < this.shopList.length) {
+			checkHandel(e) {
+				this.checkArr = e.detail.value;
+				if (this.checkArr.length < this.shopList.length) {
 					this.checkKey = false;
 				} else {
 					this.checkKey = true;
@@ -185,17 +238,13 @@
 			// 删除购物车商品
 			async deleteShopCar() {
 				let res;
-				this.checkArr.sort((a, b) => {
-					return a - b;
-				})
-				console.log(this.checkArr)
 				for (let i of this.checkArr) {
+					this.deleteShopList.push(this.shopList[i].delete_id);
+				}
+				for (let i of this.deleteShopList) {
 					res = await deleteShop({
-						index: i
+						delete_id: i
 					}, this.token)
-					for (let j of this.checkArr) {
-						j --;
-					}
 				}
 				let code = res[1].data.code;
 				if (code == 204) {
@@ -225,7 +274,6 @@
 					num: Number(this.quantity) || Number(this.countShop),
 					parameter_index: this.imgIndex
 				}, this.token).then(res => {
-					console.log(res)
 					if (res[1].data.code == 204) {
 						this.getgoodList();
 						this.hide = false;
@@ -278,6 +326,14 @@
 			// uni.showLoading({
 			// 	mask: true
 			// })
+			this.productsNumArr = [];
+			this.shopIdList = [];
+			this.specificationArr = [];
+			this.productParametersArr = [];
+			this.priceAll = 0;
+			this.checkArr = [];
+			this.deleteShopList = [];
+			this.checkKey = false;
 			getCode().then(res => {
 				this.token = res.token;
 				let code = res.code.data.code;
@@ -292,6 +348,39 @@
 			}).catch(err => {
 				console.log(err);
 			})
+		},
+		watch: {
+			// 监听商品勾选计算价格
+			checkArr(newArr,oldArr) {
+				var index;
+				var price = 0;
+				for (var i = 0; i < this.shopList.length; i ++) {
+					delete this.shopList[i].checked;
+				}
+				for (var i = 0; i < newArr.length; i ++) {
+					index = newArr[i];
+					price += Number(this.shopList[index].price) * Number(this.shopList[i].num);
+					this.shopList[index].checked = true;
+				}
+				this.priceAll = price;
+			},
+			// 监听全选
+			checkKey(newCheck, oldCheck) {
+				if (newCheck) {
+					this.priceAll = 0;
+					for (var i = 0; i < this.shopList.length; i ++) {
+						this.shopList[i].checked = true;
+						this.priceAll += Number(this.shopList[i].price) * Number(this.shopList[i].num);
+					}
+				} else {
+					if (checkArr.length == 0) {
+						for (var i = 0; i < this.shopList.length; i ++) {
+							delete this.shopList[i].checked;
+						}
+						this.priceAll = 0;
+					}
+				}
+			}
 		}
 	}
 </script>
@@ -599,6 +688,14 @@
 </style>
 
 <style>
+	.recommendF{
+		width:100%;
+	}
+	.recommendS{
+		width:416rpx;
+		height:40rpx;
+		margin:30rpx auto;
+	}
 	.text {
 		font-size: 40rpx;
 		font-weight: 700;

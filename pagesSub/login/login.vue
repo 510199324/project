@@ -4,13 +4,11 @@
 			<image src="../../static/imags/logo2.jpg" class="logoImg margin"></image>
 		</view>
 		<view class="mailbox">
-			<input type="text" class="maliboxInput margin" placeholder="请输入用户名" v-model="userName" @input="userNameHandel($event)">
-			<text class="error margin" v-if="userNameFlag">用户名不正确</text>
-			<input type="password" class="maliboxInput margin" placeholder="请输入密码" v-model="password" @input="passwordHandel($event)">
-			<text class="error margin" v-if="passFlag">密码不正确</text>
+			<input type="text" class="maliboxInput margin" placeholder="请输入用户名" v-model="userName">
+			<input type="password" class="maliboxInput margin" placeholder="请输入密码" v-model="password">
 		</view>
 		<view class="send">
-			<button class="sendEali" @tap="login">登录</button>
+			<button class="sendEali" @tap.enter="login">登录</button>
 		</view>
 		<view class="register flex-between margin">
 			<navigator url="../register/register" class="sendLogin" hover-class="none">立即注册</navigator>
@@ -38,11 +36,7 @@
 	export default {
 		data() {
 			return {
-				userNameFlag: false, // 用户名不正确的显示和隐藏
-				passFlag: false, // 密码不正确的显示和隐藏
 				emailFlag: false, // 邮箱不正确的显示和隐藏
-				userReg: /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/, // 用户名的正则
-				passReg: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/,  // 密码的正则
 				userName: '', // 用户名的双向绑定
 				password: '', // 密码的双向绑定
 				flag: true // 登录按钮的防抖
@@ -61,25 +55,9 @@
 					url: '../privacy/privacy'
 				})
 			},
-			// 用户名的事件处理函数
-			userNameHandel(e) {
-				if (!(this.userReg.test(e.target.value))) {
-					this.userNameFlag = true;
-				} else {
-					this.userNameFlag = false;
-				}
-			},
-			// 密码的事件处理函数
-			passwordHandel(e) {
-				if (!(this.passReg.test(e.target.value))) {
-					this.passFlag = true;
-				} else {
-					this.passFlag = false;
-				}
-			},
 			// 登录函数
 			login () {
-				if ((this.userReg.test(this.userName)) && (this.passReg.test(this.password))) {
+				if (this.userName != '' && this.password != '') {
 					if (this.flag) {
 						this.flag = false;
 						login({
@@ -115,6 +93,8 @@
 							this.flag = true;
 						},5000);
 					}
+				} else {
+					this.Toast('检查用户名和密码是否完善','none');
 				}
 			},
 			// 对弹窗进行封装

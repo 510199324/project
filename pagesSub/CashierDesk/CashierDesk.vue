@@ -3,14 +3,11 @@
 		<view class="price-count-down">
 			<view class="price">
 				<text class="min">￥</text>
-				<text class="max">299</text>
-				<text class="min">.00</text>
+				<text class="max">{{priceAll}}</text>
 			</view>
 			<view class="count-down">
 				<view class="title">支付剩余时间</view>
 				<view class="count">
-					<text class="time">{{hour}}</text>
-					<text class="dot">:</text>
 					<text class="time">{{min}}</text>
 					<text class="dot">:</text>
 					<text class="time">{{sec}}</text>
@@ -27,9 +24,6 @@
 						<image :src="item.icon" mode=""></image>
 						<text>{{item.name}}</text>
 					</view>
-					<view class="check">
-						<text class="iconfont" :class="PayWay === index ? 'icon-checked action':'icon-check'"></text>
-					</view>
 				</view>
 			</view>
 		</view>
@@ -40,52 +34,44 @@
 </template>
 
 <script>
+	import { payOrder } from '@/api/shops/order.js';
+	import { getCode } from '@/utlis/getToken.js';
 	export default {
 		data() {
 			return {
 				PayList: [
 					{
-						icon: '/static/wx_pay.png',
+						icon: '/static/icon/login-wx.png',
 						name: '微信支付',
 					},{
-						icon: '/static/zfb_pay.png',
+						icon: '/static/icon/alipay.png',
 						name: '支付宝支付',
-					},{
-						icon: '/static/ye_pay.png',
-						name: '余额支付',
-					},
+					}
 				],
 				PayWay: 0,
-				PayPirce: `微信支付￥299.00`,
-				CountDown: 1000,
-				day: 0,
-				hour: 0,
+				PayPirce: '',
+				CountDown: 900,
 				min: 0,
 				sec: 0,
+				priceAll: '', // 总价钱
+				orderId: null, // 订单编号
+				token: '', // 用户token
 			};
 		},
-		onLoad(){
+		onLoad(options){
+			if (typeof options.orderId == 'string') {
+				this.orderId = [options.orderId];
+			} else {
+				this.orderId = options.orderId;
+			}
+			this.priceAll = options.priceAll;
+			this.PayPirce = `${this.PayList[1].name}￥${this.priceAll}`;
 			this.CountDownData();
 		},
-		onBackPress() {  
-			if(this.showMask) {  
-				this.showMask = false;  
-				return true;  
-			}else{  
-				uni.showModal({  
-					title: '提示',  
-					content: '是否退出uni-app？',  
-					success: function(res) {  
-						if (res.confirm) {  
-							// 退出当前应用，改方法只在App中生效  
-							// plus.runtime.quit();  
-						} else if (res.cancel) {  
-							console.log('用户点击取消');  
-						}
-					}
-				});
-				return true  
-			}
+		onShow() {
+			getCode().then(res => {
+				this.token = res.token;
+			})
 		},
 		methods:{
 			/**
@@ -93,7 +79,7 @@
 			 */
 			onPayWay(item,index){
 				this.PayWay = index;
-				this.PayPirce = `${item.name}￥299.00`
+				this.PayPirce = `${item.name}￥${this.priceAll}`
 			},
 			/**
 			 * 倒计时
@@ -101,8 +87,6 @@
 			CountDownData(){
 				setTimeout(() =>{
 					this.CountDown--;
-					this.day = parseInt(this.CountDown / (24*60*60))
-					this.hour = parseInt(this.CountDown / (60 * 60) % 24);
 					this.min = parseInt(this.CountDown / 60 % 60);
 					this.sec = parseInt(this.CountDown % 60);
 					if(this.CountDown <= 0){
@@ -115,8 +99,10 @@
 			 * 支付点击
 			 */
 			onSubmit(){
-				uni.redirectTo({
-					url: '/pages/PayResult/PayResult',
+				payOrder({
+					indent_collection: JSON.stringify(this.orderId)
+				}, this.token).then(res => {
+					console.log(res)
 				})
 			}
 		}
