@@ -1,4 +1,8 @@
 
+.may{
+	font-size:28rpx;
+	color:#4c4b4b;
+}
 .home {
 	background: #f8f8f8;
 }
@@ -158,10 +162,13 @@
   display: flex;
   width: 100%;
   height: 220rpx;
+  overflow: hidden;
 }
 .flash-good .flash-sale .goods-list .list.data-v-92bb8f34 {
-  width: 50%;
+  width: 25%;
   height: 100%;
+  -webkit-flex-shrink: 0;
+          flex-shrink: 0;
 }
 .flash-good .flash-sale .goods-list .list .pictrue.data-v-92bb8f34 {
   width: 100%;
@@ -187,7 +194,7 @@
   color: #FF0000;
 }
 .flash-good .flash-sale .goods-list .list .price .original-price.data-v-92bb8f34 {
-  font-size: 24rpx;
+  font-size: 20rpx;
   text-decoration: line-through;
   color: #bbbaba;
   margin-left: 10rpx;
@@ -284,7 +291,7 @@
   color: #FF0000;
 }
 .flash-good .good-choice .goods-list .list .price .original-price.data-v-92bb8f34 {
-  font-size: 24rpx;
+  font-size: 20rpx;
   text-decoration: line-through;
   color: #bbbaba;
   margin-left: 10rpx;

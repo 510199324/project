@@ -104,7 +104,6 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  padding: 0 4%;
   height: 100rpx;
   margin-left: 50rpx;
 }

@@ -74,8 +74,6 @@
 							this.flag = true;
 						},5000);
 					}
-				} else {
-					console.log('出问题了')
 				}
 			},
 			// 对弹窗进行封装
@@ -90,7 +88,6 @@
 			}
 		},
 		onLoad(data) {
-			console.log(data)
 			this.res = data;
 		}
 	}

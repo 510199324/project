@@ -6,7 +6,7 @@
 				<text slot="text-two">登录成功后将显示购物车内商品</text>
 				<button type="primary" slot="button" @tap="goLogin">去登陆</button>
 			</shop>
-			<shop v-if="shopList.length">
+			<shop v-if="shopList.length == 0">
 				<text slot="text-title">购物车空空如也~</text>
 				<text slot="text-two">快去逛逛吧，挑选您喜爱的商品</text>
 				<button type="primary" slot="button" @tap="goShop">去逛逛</button>
@@ -30,7 +30,7 @@
 							</view>
 							<view class="goods">
 								<view class="thumb">
-									<image :src="JSON.parse(item.parameter).content[item.parameter_index]" mode=""></image>
+									<image :src="JSON.parse(item.parameter)[0].content[item.parameter_index]" mode=""></image>
 								</view>
 								<view class="item">
 									<view class="title">
@@ -38,7 +38,7 @@
 									</view>
 									<view class="attribute">
 										<view class="attr" @tap="buttonClick(item, index)">
-											<text>{{JSON.parse(item.parameter).name[item.parameter_index]}}</text>
+											<text>{{JSON.parse(item.parameter)[0].name[item.parameter_index]}}</text>
 											<text class="more"></text>
 										</view>
 									</view>
@@ -107,7 +107,7 @@
 	import goodList from '@/components/my-components/goodList/goodList.vue';
 	import shop from '@/components/my-components/shop/shop.vue';
 	import goodAttr from '@/components/my-components/GoodsAttr/GoodsAttr.vue';
-	import { getGood } from '@/api/shops/shops.js';
+	import { mayLike } from '@/api/shops/shops.js';
 	import { getCode } from '@/utlis/getToken.js';
 	import { deleteShop, upDateShop, getShop, favorites } from '@/api/users/user.js';
 	export default {
@@ -124,7 +124,7 @@
 				hide: false,  // 控制添加购物车和购买的框显示和隐藏
 				detail: null, // 商品参数
 				isEdit: false, // 删除和付款的出现和隐藏
-				shopList: [], // 购物车列表
+				shopList: null, // 购物车列表
 				goodShopList: null, // 猜你喜欢商品列表
 				flag: true, // 判断是否登录
 				token: null, // 用户token
@@ -189,7 +189,7 @@
 					this.productsNumArr.push(this.shopList[i].num);
 					this.shopIdList.push(this.shopList[i].id);
 					this.specificationArr.push(this.shopList[i].parameter_index);
-					this.productParametersArr.push(JSON.parse(this.shopList[i].parameter).name[this.shopList[i].parameter_index]);
+					this.productParametersArr.push(JSON.parse(this.shopList[i].parameter)[0].name[this.shopList[i].parameter_index]);
 				}
 				console.log(this.deleteShopList)
 				uni.navigateTo({
@@ -261,7 +261,7 @@
 			// 修改参数的组件出现
 			buttonClick(item, index) {
 				this.hide = true;
-				this.detail = JSON.parse(item.parameter);
+				this.detail = JSON.parse(item.parameter)[0];
 				this.countShop = item.num;
 				this.index = index;
 				this.price = item.price;
@@ -303,13 +303,16 @@
 			},
 			// 请求
 			getgoodList() {
-				let arr = [getGood(), getShop(this.token)];
+				uni.showLoading({
+					mask: true
+				})
+				let arr = [mayLike(),getShop(this.token)];
 				Promise.all(arr).then((res) => {
-					// this.goodShopList = res[0][1].data.data;
+					this.goodShopList = res[0][1].data.data;
 					this.shopList = res[1][1].data.data;
-					// this.$nextTick(() => {
-					// 	uni.hideLoading();
-					// })
+					this.$nextTick(() => {
+						uni.hideLoading();
+					})
 				}).catch((err) => {
 					console.log(err)
 				})
@@ -323,9 +326,6 @@
 			}
 		},
 		onShow() {
-			// uni.showLoading({
-			// 	mask: true
-			// })
 			this.productsNumArr = [];
 			this.shopIdList = [];
 			this.specificationArr = [];
@@ -339,6 +339,7 @@
 				let code = res.code.data.code;
 				if (code === 401) {
 					this.flag = false;
+					this.shopList = null;
 				} else if (code === 204) {
 					this.flag = true;
 				} else {

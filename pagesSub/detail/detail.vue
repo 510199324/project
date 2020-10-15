@@ -5,27 +5,33 @@
 			<view class="swiper">
 				<!-- 图片预览 -->
 				<swiper :indicator-dots="false" :autoplay="false" :interval="3000" :duration="400" class="swiperCom" @change="change">
-					<view class="detailSwiper" v-for="(item, index) in detailList.img_list.split(',')" :key="index">
+					<view class="detailSwiper" v-for="(item, index) in imgArr" :key="index">
 						<swiper-item>
 							<image :src="item" mode="widthFix" class="deteilImg" @tap="previewImage(index)"></image>
 						</swiper-item>
 					</view>
 				</swiper>
-				<text class="number">{{detailList.img_list.split(',').length}}/{{index}}</text>
+				<text class="number">{{imgArr.length}}/{{index}}</text>
 			</view>
 			<view class="detailText">
 				<view class="flex-between">
 					<text class="title">{{detailList.title}}</text>
 					<text class="typeTwo">{{detailList.type_two}}</text>
 				</view>
-				<view class="money">
+				<view class="money" :class="{text:detailList.spike_price}">
+					<text class="gold" :style="{color:detailList.spike_price?'#ccc':'#f40'}">￥</text>
+					<text class="price" :style="{color:detailList.spike_price?'#ccc':'#f40'}">{{detailList.price}}</text>
+				</view>
+				<view v-if="detailList.spike_price" style="font-size:36rpx;color:#f00;">
 					<text class="gold">￥</text>
-					<text class="price">{{detailList.price}}</text>
+					<text class="price">{{detailList.spike_price}}</text>
 				</view>
 				<text class="introduce">{{detailList.introduce}}</text>
 			</view>
 			<view class="detailList">
-				<text class="like">猜你喜欢</text>
+				<view class="recommendF">
+					<image src="/static/imags/wntj_title.png" mode="" class="recommend"></image>
+				</view>
 				<goodList :goodShopList="goodShopList" :src="'../../pagesSub/detail/detail?type_one='" />
 			</view>
 		</view>
@@ -42,7 +48,7 @@
 <script>
 	import uniGoodsNav from '@/components/uni-goods-nav/uni-goods-nav.vue';
 	import goodList from '@/components/my-components/goodList/goodList.vue';
-	import { getGood, getTypeOne } from '@/api/shops/shops.js';
+	import { getGood, getTypeOne, mayLike } from '@/api/shops/shops.js';
 	import goodAttr from '@/components/my-components/GoodsAttr/GoodsAttr.vue';
 	import { addShop, favorites, deleteFavorites, favoritesAll } from '@/api/users/user.js';
 	import { getCode } from '@/utlis/getToken.js';
@@ -88,24 +94,30 @@
 				imgIndex: 0,
 				token: '', // 用户token
 				code: '', // 判断是否登录的code
+				imgArr: [], // 商品图片
 		    }
 		},
 		onLoad({id, type_one}) {
 			let arr = [getGood({
 				id
-			}),getTypeOne({
-				type_one
-			})];
+			}),mayLike()];
 			Promise.all(arr).then(res=>{
 				this.detailList = res[0][1].data.data[0];
-				this.price = this.detailList.price;
+				if (this.detailList.spike) {
+					this.price = this.detailList.spike_price;
+				} else {
+					this.price = this.detailList.price;
+				}
+				if (this.detailList.img_list.split(',').length > 1) {
+					this.imgArr = this.detailList.img_list.split(',');
+				} else {
+					this.imgArr = this.detailList.img_list.split(',');
+				}
 				// 判断是否有商品参数
-				if (this.detailList.parameter == '') {
+				if (JSON.parse(this.detailList.parameter).length == 0) {
 					this.detail = '';
-				} else if (Array.isArray(JSON.parse(this.detailList.parameter))) {
+				} else {
 					this.detail = JSON.parse(this.detailList.parameter)[0];
-				} else if (!Array.isArray(JSON.parse(this.detailList.parameter))) {
-					this.detail = JSON.parse(this.detailList.parameter);
 				}
 				this.goodShopList = res[1][1].data.data;
 				this.$nextTick(()=>{
@@ -184,20 +196,31 @@
 					})
 				}
 			}, 
-			// 控制选择参数的弹框的显示和隐藏 并 判断是否是购买或加入购物车
-			buttonClick(e) {
-				if (this.code == 401) {
-					uni.navigateTo({
-						url: '../login/login'
-					})
-				} else {
-					this.hide = true;
-					this.confirmText = e.content.text;
-				}
-			},
-			// 立即购买和加入购物车
-			confirm() {
-				if (this.confirmText == '加入购物车') {
+			// 对加入购物车和立即购买的封装
+			spikeLike(type) {
+				if (type == '立即购买') {
+					if (this.specification === '' || this.quantity === 0) {
+						uni.showToast({
+							title: '请选择规格',
+							icon: 'none'
+						});
+						setTimeout(()=>{
+							uni.hideToast();
+						},1500)
+					} else {
+						uni.navigateTo({
+							url: `../ConfirmOrder/ConfirmOrder?detail=${JSON.stringify({
+								productsNumArr: [this.quantity],
+								productParametersArr: [this.specification],
+								shopIdList: [this.detailList.id],
+								priceAll: this.price,
+								specificationArr: [this.imgIndex],
+								deleteShopList: [this.detailList.delete_id]
+							})}`
+						})
+					}
+				} 
+				if (type == '加入购物车') {
 					if (this.specification === '' || this.quantity === 0) {
 						uni.showToast({
 							title: '请选择规格',
@@ -230,27 +253,43 @@
 						})
 					}
 				}
-				if (this.confirmText == '立即购买') {
-					if (this.specification === '' || this.quantity === 0) {
+			},
+			// 活动未开始的封装
+			activity() {
+				if (this.detailList.type == 'spike') {
+					if (Number(this.detailList.create_time) > new Date().getTime()) {
 						uni.showToast({
-							title: '请选择规格',
+							title: '活动未开始，请稍后',
 							icon: 'none'
-						});
+						})
 						setTimeout(()=>{
 							uni.hideToast();
 						},1500)
 					} else {
-						uni.navigateTo({
-							url: `../ConfirmOrder/ConfirmOrder?detail=${JSON.stringify({
-								productsNumArr: [this.quantity],
-								productParametersArr: [this.specification],
-								shopIdList: [this.detailList.id],
-								priceAll: this.price,
-								specificationArr: [this.imgIndex],
-								deleteShopList: [this.detailList.delete_id]
-							})}`
-						})
+						this.spikeLike(this.confirmText);
 					}
+				} else if (this.detailList.type == '') {
+					this.spikeLike(this.confirmText);
+				}
+			},
+			// 控制选择参数的弹框的显示和隐藏 并 判断是否是购买或加入购物车
+			buttonClick(e) {
+				if (this.code == 401) {
+					uni.navigateTo({
+						url: '../login/login'
+					})
+				} else {
+					this.hide = true;
+					this.confirmText = e.content.text;
+				}
+			},
+			// 立即购买和加入购物车
+			confirm() {
+				if (this.confirmText == '加入购物车') {
+					this.activity();
+				}
+				if (this.confirmText == '立即购买') {
+					this.activity();
 				}
 			},
 			// 商品图片滑动的索引
@@ -260,7 +299,7 @@
 			// 图片预览
 			previewImage(index) {
 				uni.previewImage({
-					urls: this.detailList.img_list.split(','),
+					urls: this.imgArr,
 					current: index
 				})
 			},
@@ -311,6 +350,18 @@
 </script>
 
 <style>
+	.text{
+		color:#ccc;
+		text-decoration: line-through;
+	}
+	.recommendF{
+		width:100%;
+	}
+	.recommend{
+		width:416rpx;
+		height:40rpx;
+		margin:30rpx auto;
+	}
 	page{
 		width:100%;
 		height:100%;

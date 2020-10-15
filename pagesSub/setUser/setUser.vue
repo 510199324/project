@@ -103,7 +103,6 @@
 					that.userInfo = res.data.data;
 					that.sexText = that.userInfo.gender == null ? '' : that.userInfo.gender;
 					that.birthday = that.userInfo.datebirth == null ? '' : dayjs(Number(that.userInfo.datebirth)).format('YYYY-MM-DD');
-					console.log(that.birthday)
 					that.nickname = that.userInfo.name;
 				}
 			})
@@ -135,15 +134,8 @@
 							filePath: tempFilePaths[0],
 							success(res) {
 								that.userImg = JSON.parse(res.data).img_Url;
-								console.log(that.userImg);
-							},
-							fail(err) {
-								console.log(err)
 							}
 						})
-					},
-					fail(err) {
-						console.log(err)
 					}
 				})
 			},
@@ -211,8 +203,6 @@
 							})
 						}, 1500)
 					}
-				}).catch(err => {
-					console.log(err);
 				})
 			}
  		}

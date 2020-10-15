@@ -4,20 +4,20 @@
 		<view class="search-index">
 			<!-- #ifndef H5 -->
 				<view class="icon" @click="onCode">
-					<text class="iconfont icon-sousuo"></text>
+					<text class="cuIcon cuIcon-list"></text>
 				</view>
 			<!-- #endif -->
 			<!-- #ifdef  H5 -->
 			<view class="icon" @click="onPayCode">
-				<text class="iconfont icon-sousuo"></text>
+				<text class="mix-icon icon-sousuo"></text>
 			</view>
 			<!-- #endif -->
 			<view class="search">
-				<view class="iconfont icon-sousuo"></view>
-				<input type="text" placeholder="输入搜索内容" />
+				<text class="mix-icon icon-sousuo"></text>
+				<input type="text" placeholder="输入搜索内容" v-model="keyword" />
 			</view>
-			<view class="icon">
-				<text class="iconfont icon-sousuo"></text>
+			<view class="icon" @tap="search">
+				<text class="mix-icon icon-sousuo"></text>
 			</view>
 		</view>
 		<!-- 分类数据 -->
@@ -58,6 +58,7 @@
 				titleScrollAll: null, // 标题的侧边栏谢谢
 				titleIndex: 0, // 标题索引
 				scrollTop: 0, // 滚动条距离
+				keyword: '', // 搜索关键字
 			};
 		},
 		onShow() {
@@ -132,7 +133,25 @@
 			// 点击滚动楼层
 			clickScroll(index) {
 				this.scrollTop = this.titleAll[index].top - 130;
-			}
+			},
+			// 搜索
+			search() {
+				if (this.keyword == '') {
+					uni.showToast({
+						title: '搜索不能为空',
+						icon: 'none'
+					})
+					setTImeout(()=>{
+						uni.hideToast();
+					},1500)
+				} else {
+					searchList({
+						keyword: this.keyword
+					}).then(res => {
+						this.goodList = res[1].data.data;
+					})
+				}
+			},
 		}
 	}
 </script>

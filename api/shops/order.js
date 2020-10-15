@@ -53,3 +53,11 @@ export function delivered(token) {
 		'sessiontoken': token
 	})
 }
+
+// 取消订单或者退款
+export function refund(data,token) {
+	return request('/refund_indent',data,'POST',{
+		"Content-type": "application/x-www-form-urlencoded",
+		'sessiontoken': token
+	})
+}

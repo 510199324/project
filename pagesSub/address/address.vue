@@ -20,7 +20,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="addresslistAir" v-show="addressList.length === 0">
+			<view class="addresslistAir" v-show="addressList.length == 0">
 				<image src="../../static/imags/address.png" class="AirImg margin"></image>
 				<view class="text">
 					<text>还没有地址哦~</text>

@@ -4,7 +4,7 @@
 		<view class="order-status">
 			<view class="status">
 				<text class="iconfont icon-zhuyi"></text>
-				<text>待付款</text>
+				<text>{{order.orderstatus}}</text>
 			</view>
 			<view class="reason">
 				<text>剩余12分68秒</text>
@@ -14,37 +14,36 @@
 		<view class="shipping-address">
 			<view class="name-phone">
 				<text class="iconfont icon-dingwei"></text>
-				<text>王哈哈</text>
-				<text>1788****8888</text>
+				<text>{{address.recipients}}</text>
+				<text>{{address.tel}}</text>
 			</view>
 			<view class="address">
-				<text>黑龙江道里区爱建路按揭贷款接啊禄口街道克拉克爱神的箭阿拉斯加刷卡机卡</text>
+				<text>{{address.province + address.city + address.area + address.address}}</text>
 			</view>
 		</view>
 		<!-- 订单商品 -->
 		<view class="order-goods">
 			<view class="goods-list">
-				<view class="list" v-for="(item,index) in 2" :key="index">
+				<view class="list">
 					<view class="thumb">
-						<image :src="'/static/img/goods_thumb_0'+(index+1)+'.png'" mode=""></image>
+						<image :src="imgUrl" mode=""></image>
 					</view>
 					<view class="item">
 						<view class="title">
-							<text class="one-omit">薇妮(Viney)时尚包包女包牛皮单肩包女休闲百搭斜挎包韩版小方包潮(水电费枪色)</text>
+							<text class="one-omit">{{title}}</text>
 						</view>
 						<view class="num-size">
-							<text>数量：88</text>
-							<text>颜色：黑色,XL,全国联保</text>
+							<text>数量：{{order.num}}</text>
+							<text>{{order.parameter}}</text>
 						</view>
 						<view class="price">
-							<text>￥299.00</text>
+							<text>￥ {{price}}</text>
 						</view>
 					</view>
 				</view>
 			</view>
 			<view class="contact">
-				<text class="iconfont icon-kefu"></text>
-				<text>联系客服</text>
+				<button type="default" open-type="contact" style="background:#fff;font-size:28rpx;">联系客服</button>
 			</view>
 		</view>
 		<!-- 订单信息 -->
@@ -53,26 +52,20 @@
 				<view class="list">
 					<view class="title">订单编号:</view>
 					<view class="content">
-						<text>15551231231231</text>
-						<text class="btn">复制</text>
+						<text>{{order.detailid}}</text>
+						<text class="btn" @tap="copy(order.detailid)">复制</text>
 					</view>
 				</view>
 				<view class="list">
 					<view class="title">下单时间:</view>
-					<view class="content">
-						<text>2020-12-12 13:11:11</text>
+					<view class="content"> 
+						<text>{{day(order.create_time)}}</text>
 					</view>
 				</view>
 				<view class="list">
 					<view class="title">支付方式:</view>
 					<view class="content">
 						<text>在线支付</text>
-					</view>
-				</view>
-				<view class="list">
-					<view class="title">配送方式:</view>
-					<view class="content">
-						<text>普通快递</text>
 					</view>
 				</view>
 			</view>
@@ -85,34 +78,17 @@
 						<text>商品总额</text>
 					</view>
 					<view class="price">
-						<text>￥299.00</text>
-					</view>
-				</view>
-				<view class="list">
-					<view class="title">
-						<text>运费</text>
-					</view>
-					<view class="price">
-						<text>+￥20.00</text>
-					</view>
-				</view>
-				<view class="list action">
-					<view class="title">
-						<text>实付款：</text>
-					</view>
-					<view class="price">
-						<text>￥319.00</text>
+						<text>￥{{price}}</text>
 					</view>
 				</view>
 			</view>
 		</view>
 		<!-- 底部按钮 -->
 		<view class="footer-btn">
-			<view class="del">
+			<view class="del" @tap="deleteOrder()">
 				<text>删除订单</text>
 			</view>
 			<view class="btn">
-				<text>查看发票</text>
 				<text class="action">确认付款</text>
 			</view>
 		</view>
@@ -120,19 +96,50 @@
 </template>
 
 <script>
+	import { refund } from '@/api/shops/order.js';
+	import dayJs from 'dayjs';
+	import { getCode } from '@/utlis/getToken.js';
 	export default {
 		data() {
 			return {
-
+				order: {}, // 订单列表的对象
+				title: '', // 商品名字
+				price: '', // 商品价格
+				imgUrl: '', // 商品参数图 
+				address: {}, // 地址对象
+				token: '', // token 用来取消订单
 			};
 		},
+		onLoad(options) {
+			let detail = JSON.parse(options.detail);
+			this.title = detail.title;
+			this.order = detail.order;
+			this.price = detail.price;
+			this.imgUrl = options.imgUrl;
+			this.address = JSON.parse(JSON.parse(this.order.address));
+		},
+		onShow() {
+			getCode().then(res => {
+				this.token = res.token;
+			}) 
+		},
 		methods:{
-			/**
-			 * 售后点击
-			 */
-			onApplyAftersales(){
-				uni.navigateTo({
-					url: '/pages/AfterSaleType/AfterSaleType',
+			// 复制订单编号
+			copy(item) {
+				uni.setClipboardData({
+					data: item
+				})
+			},
+			// 时间格式胡
+			day(item) {
+				return dayJs(Number(item)).format('YYYY-MM-DD HH:mm:ss');
+			},
+			// 删除订单
+			deleteOrder() {
+				refund({
+					detailid: this.order.detailid
+				}, this.token).then(res => {
+					console.log(res)
 				})
 			}
 		}

@@ -56,6 +56,12 @@
 			"root":"pagesSub",
 			"pages":[
 				{
+					"path": "SearchGoodsList/SearchGoodsList",
+					"style": {
+						"navigationBarTitleText": "搜索"
+					}
+				},
+				{
 					"path": "modifyEmail/modifyEmail",
 					"style": {
 						"navigationBarTitleText": "修改邮箱"
@@ -178,6 +184,9 @@
 					"style": {
 						"navigationBarTitleText": "确认支付"
 					}
+				},
+				{
+					"path": "skip/skip"
 				}
 			]
 		}

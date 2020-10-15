@@ -23,3 +23,15 @@ export function getGood(data) {
 export function getTypeOne(data) {
 	return request('/type_one',data,'GET')
 }
+
+// 特价或闪购
+export function getSpike(type) {
+	return request('/spike',{
+		type
+	},'GET');
+}
+
+// 猜你喜欢
+export function mayLike() {
+	return request('/like',{},'GET');
+}

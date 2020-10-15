@@ -2,7 +2,7 @@
 	<view class="page">
 		<!-- 地址 -->
 		<view class="address-data">
-			<view class="address-list" @click="onSkip">
+			<view class="address-list" @click="onSkip" v-if="address.province != undefined">
 				<view class="list">
 					<text>{{address.province + address.city + address.area}}</text>
 				</view>
@@ -13,9 +13,12 @@
 					<text>{{address.recipients}}</text>
 					<text>{{address.tel}}</text>
 				</view>
-				<view class="list">
+				<view class="list" @click="onSkip">
 					<text class="tips">(如果快递不方便接收，您可以选择暂时寄存服务)</text>
 				</view>
+			</view>
+			<view>
+				<text>您该没添加地址哦~ 快去添加吧</text>
 			</view>
 		</view>
 		<!-- 商品 -->
@@ -26,7 +29,7 @@
 			<view class="goods-list">
 				<view class="list" v-for="(item, index) in goodList" :key="index">
 					<view class="thumb">
-						<image :src="JSON.parse(item.parameter).content[specificationArr[index]]" mode=""></image>
+						<image :src="JSON.parse(item.parameter)[0].content[specificationArr[index]]" mode=""></image>
 					</view>
 					<view class="item">
 						<view class="title">
@@ -177,29 +180,31 @@
 			 * 提交订单
 			 */
 			onSubmit() {
-				addOrder({
-					goodsid: JSON.stringify(this.shopIdList),
-					num: JSON.stringify(this.productsNumArr),
-					postscript: this.postScript,
-					address: JSON.stringify(this.address),
-					coupon: JSON.stringify(null),
-					parameter: JSON.stringify(this.productParametersArr),
-					all_price: this.priceAll,
-					detail_id: JSON.stringify(this.deleteShopList)
-				}, this.token).then(res=>{
-					if (res[1].data.code == 204) {
-						uni.redirectTo({
-							url: '../CashierDesk/CashierDesk?orderId='+res[1].data.data.indent_collection+'&priceAll='+this.priceAll,
-						})
-					} else {
-						uni.showToast({
-							title: '系统繁忙'
-						})
-						setTimeout(()=>{
-							uni.hideToast();
-						},1500)
-					}
-				}).catch(err => err)
+				if (this.address.tel) {
+					addOrder({
+						goodsid: JSON.stringify(this.shopIdList),
+						num: JSON.stringify(this.productsNumArr),
+						postscript: this.postScript,
+						address: JSON.stringify(this.address),
+						coupon: JSON.stringify(null),
+						parameter: JSON.stringify(this.productParametersArr),
+						all_price: this.priceAll,
+						detail_id: JSON.stringify(this.deleteShopList)
+					}, this.token).then(res=>{
+						if (res[1].data.code == 204) {
+							uni.redirectTo({
+								url: '../CashierDesk/CashierDesk?orderId='+res[1].data.data.indent_collection+'&priceAll='+this.priceAll,
+							})
+						} else {
+							uni.showToast({
+								title: '系统繁忙'
+							})
+							setTimeout(()=>{
+								uni.hideToast();
+							},1500)
+						}
+					}).catch(err => err)
+				}
 			},
 			/**
 			 * 跳转点击

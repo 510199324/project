@@ -27,10 +27,10 @@
 			<navigator url="../login/login" class="sendLogin margin" hover-class="none">返回登录</navigator>
 		</view>
 		<view class="other">
-			<text class="otherLogin flex-center">其他方式登录 / 注册</text>
+		<!-- 	<text class="otherLogin flex-center">其他方式登录 / 注册</text>
 			<view class="WeChat">
 				<image src="../../static/icon/login-wx.png" class="weChatLogo"></image>
-			</view>
+			</view> -->
 			<view class="UserAgreement">
 				<view>
 					<text>登录代表同意</text>

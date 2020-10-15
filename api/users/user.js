@@ -250,3 +250,8 @@ export function exchange(data,token) {
 export function exchangeCoupon() {
 	return request('/all_system_coupon',{},'GET')
 }
+
+// 搜索
+export function searchList(data) {
+	return request('/user/select_product',data,'GET')
+}

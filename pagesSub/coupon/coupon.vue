@@ -98,7 +98,6 @@
 							this.couponList.push(i);
 						}
 					}
-					console.log(this.couponList)
 				}
 				if (type == 2) {
 					this.couponList = [];
@@ -107,7 +106,6 @@
 							this.couponList.push(j);
 						}
 					}
-					console.log(this.couponList)
 				}
 			}
 		}

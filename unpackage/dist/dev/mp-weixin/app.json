@@ -8,6 +8,7 @@
     {
       "root": "pagesSub",
       "pages": [
+        "SearchGoodsList/SearchGoodsList",
         "modifyEmail/modifyEmail",
         "changePassword/changePassword",
         "classify/classify",
@@ -28,7 +29,8 @@
         "userDetail/userDetail",
         "AddressEdit/AddressEdit",
         "setUser/setUser",
-        "ConfirmOrder/ConfirmOrder"
+        "ConfirmOrder/ConfirmOrder",
+        "skip/skip"
       ]
     }
   ],
@@ -62,5 +64,5 @@
     ]
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap25.json"
+  "sitemapLocation": "sitemap37.json"
 }

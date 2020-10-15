@@ -16,18 +16,18 @@
 						</shop>
 						<!-- 订单列表 -->
 						<checkbox-group class="order-list" v-else>
-							<label class="list" v-for="(item,index) in goodsList" @click="onOrderList" :key="index">
+							<label class="list" v-for="(item,index) in goodsList" :key="index">
 								<view class="title-status">
 									<view class="title">
 										<checkbox :value="2" style="margin-left:10rpx;margin-right:30rpx;" v-if="itemOne == '待付款'" />
-										<text>下单时间：2020-12-12 18:56</text>
+										<text>下单时间：{{dayJs(Number(orderListArr[index].create_time))}}</text>
 									</view>
 									<view class="status">
 										<text>{{orderListArr[index].orderstatus}}</text>
 										<text class="iconfont icon-laji del"></text>
 									</view>
 								</view>
-								<view class="goods-list">
+								<view class="goods-list" @click="onOrderList(item, index)">
 									<view class="goods">
 										<view class="thumb">
 											<image :src="item.img_list.split(',')[0]" mode=""></image>
@@ -47,10 +47,10 @@
 									<view class="btn">
 										<text>取消订单</text>
 									</view>
-									<view class="btn action">
+									<view class="btn action" v-if="itemOne == '待付款'">
 										<text>待付款</text>
 									</view>
-									<view class="btn action">
+									<view class="btn action" v-if="itemOne == '待收货'">
 										<text>查看物流</text>
 									</view>
 								</view>
@@ -85,6 +85,7 @@
 	import { getGood } from '@/api/shops/shops.js';
 	import { getCode } from '@/utlis/getToken.js';
 	import shop from '@/components/my-components/shop/shop.vue';
+	import dayjs from 'dayjs';
 	export default {
 		components: {
 			shop
@@ -107,6 +108,10 @@
 			}
 		},
 		methods: {
+			// 日期格式化
+			dayJs(item) {
+				return dayjs(item).format('YYYY-MM-DD HH:mm:ss');
+			},
 			// 登录状态的去逛逛
 			goShop() {
 				uni.switchTab({
@@ -116,14 +121,14 @@
 			changeTab(e, item) {
 				this.curTab = e.currentTarget.dataset.curtab;
 				this.itemOne = item;
-				// uni.showLoading({
-				// 	title: '加载中......'
-				// })
-				// uni.hideLoading()
 				this.requestOrder(item);
 			},
 			// 获取订单列表
 			requestOrder(status) {
+				uni.showLoading({
+					title: '加载中...',
+					mask: true
+				})
 				if (status == '全部') {
 					allOrder(this.token).then(res => {
 						this.eachRequest(res[1].data.data);						
@@ -144,22 +149,36 @@
 			},
 			// 发请求获取商品列表
 			eachRequest(arr) {
-				console.log(arr)
 				this.orderListArr = [];
+				this.goodIdList = [];
 				for (let i of arr) {
 					this.goodIdList.push(i.goodsid);
 					this.orderListArr.push(i);
 				}
+				console.log(this.goodIdList)
 				for (let j of this.goodIdList) {
 					getGood({
 						id: j
 					}).then(res => {
 						this.goodsList.push(res[1].data.data[0]);
+						this.$nextTick(()=>{
+							uni.hideLoading();
+						})
 					})
 				}
 			},
 			stopTouchMove() {
 				return true;
+			},
+			// 订单点击详情
+			onOrderList(item, index) {
+				uni.navigateTo({
+					url: '../orderDetails/orderDetails?detail=' + JSON.stringify({
+						title: item.title,
+						price: item.price,
+						order: this.orderListArr[index]
+					}) + '&imgUrl=' + JSON.parse(item.parameter)[0].content[index]
+				})
 			}
 		},
 		onLoad(options) {
@@ -342,8 +361,9 @@
 					.thumb {
 						display: flex;
 						align-items: center;
-						width: 25%;
+						width: 20%;
 						height: 100%;
+						margin-left: 30rpx;
 						image {
 							width: 140rpx;
 							height: 140rpx;

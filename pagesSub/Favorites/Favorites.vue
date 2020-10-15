@@ -4,7 +4,7 @@
 			<text slot="text-title">这里已空空如也~</text>
 			<text slot="text-two">"藏藏更健康~"</text>
 		</shop>
-		<view class="head">
+		<view class="head" v-if="favorites.length > 0">
 			<checkbox-group style="display: flex;" v-if="isEdit?true:false" @change="checkAll">
 				<label :checked="checkAllKey">
 					<checkbox value="all" :checked="checkAllKey"/><text>全选</text>
@@ -16,7 +16,7 @@
 		</view>
 		<checkbox-group class="goods-list" @change="favoritesCheck">
 			<label class="list" v-for="(item,index) in favorites" :key="index">
-				<checkbox class="check"  v-if="isEdit?true:false"  style="display: flex;" :value="item.id" :checked="checkKey" />
+				<checkbox class="check" v-if="isEdit?true:false"  style="display: flex;" :value="item.id" :checked="checkKey" />
 				<view class="thumb">
 					<image :src="item.img_list.split(',')[0]" mode=""></image>
 				</view>
@@ -118,12 +118,18 @@
 			favoritesAllArr() {
 				favoritesAll(this.token).then(res => {
 					let arr = res[1].data.data;
-					for (let i of arr) {
-						getGood({
-							id: i
-						}).then(res => {
-							this.favorites.push(res[1].data.data[0])
-						})
+					if (arr.length == 0) {
+						this.favorites = [];
+						this.isEdit = false;
+					} else {
+						this.favorites = [];
+						for (let i of arr) {
+							getGood({
+								id: i
+							}).then(res => {
+								this.favorites.push(res[1].data.data[0])
+							})
+						}
 					}
 				}).catch(err => {
 					console.log(err);
